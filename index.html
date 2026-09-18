@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Regulatory Radar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* ---- P3 CI tokens ---- */
+  --p3-blue:#2323FF;
+  --p3-blue-bright:#4646FF;
+  --p3-blue-deep:#0D0D8C;
+  --p3-navy:#070733;
+
+  --bg:#04041A;
+  --bg-2:#08082B;
+  --surface:#0C0C33;
+  --surface-2:#12124A;
+  --line:rgba(255,255,255,.12);
+  --line-soft:rgba(255,255,255,.06);
+  --txt:#FFFFFF;
+  --txt-dim:#A9AEDC;
+  --txt-mute:#6F76AE;
+
+  /* categories */
+  --cat-consumer:#FF6A2B;
+  --cat-industrial:#8B8BFF;
+
+  /* rings */
+  --ring-1:rgba(70,70,255,.26);
+  --ring-2:rgba(70,70,255,.15);
+  --ring-3:rgba(70,70,255,.07);
+
+  --radius:14px;
+  --font:'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--txt);
+  font-family:var(--font);
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+  background-image:
+    radial-gradient(1200px 600px at 15% -10%, rgba(35,35,255,.30), transparent 60%),
+    radial-gradient(900px 500px at 95% 5%, rgba(13,13,140,.45), transparent 62%);
+  background-attachment:fixed;
+}
+a{color:var(--p3-blue-bright);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1260px;margin:0 auto;padding:0 24px}
+
+/* ================= HEADER ================= */
+header{
+  position:sticky;top:0;z-index:40;
+  backdrop-filter:blur(14px);
+  background:rgba(4,4,26,.72);
+  border-bottom:1px solid var(--line-soft);
+}
+.hdr{display:flex;align-items:center;gap:20px;height:68px}
+.logo{display:flex;align-items:center;gap:12px;flex:0 0 auto}
+.logo .mark{
+  font-weight:800;font-size:26px;letter-spacing:-1px;line-height:1;
+  color:#fff;border-left:3px solid #fff;padding-left:6px;
+}
+.logo .div{width:1px;height:24px;background:var(--line)}
+.logo .name{font-size:12px;letter-spacing:2.4px;font-weight:600;color:var(--txt-dim);text-transform:uppercase}
+.hdr .spacer{flex:1}
+.hdr .ver{font-size:11px;letter-spacing:1.6px;color:var(--txt-mute);text-transform:uppercase}
+
+/* ================= HERO ================= */
+.hero{padding:44px 0 22px}
+.eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.eyebrow .bar{width:64px;height:1px;background:rgba(255,255,255,.5)}
+.eyebrow span{font-size:11px;letter-spacing:2.6px;font-weight:600;text-transform:uppercase;color:#fff}
+h1{
+  font-size:clamp(34px,5.4vw,60px);font-weight:800;letter-spacing:-1.5px;
+  margin:0 0 14px;line-height:1.02;text-transform:uppercase;
+}
+h1 em{font-style:normal;color:var(--p3-blue-bright)}
+.lede{max-width:720px;color:var(--txt-dim);font-size:16px;line-height:1.65;margin:0}
+
+/* ================= CONTROLS ================= */
+.controls{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin:30px 0 8px}
+.seg{
+  display:inline-flex;padding:4px;gap:4px;
+  border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.03);
+}
+.seg button{
+  font-family:var(--font);font-size:12.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--txt-dim);background:transparent;border:0;cursor:pointer;
+  padding:10px 20px;border-radius:999px;transition:.18s;white-space:nowrap;
+}
+.seg button:hover{color:#fff}
+.seg button[aria-pressed="true"]{background:var(--p3-blue);color:#fff;box-shadow:0 6px 22px rgba(35,35,255,.45)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-left:auto}
+.chip{
+  display:inline-flex;align-items:center;gap:8px;cursor:pointer;user-select:none;
+  font-size:11.5px;font-weight:600;letter-spacing:.6px;color:var(--txt-dim);
+  border:1px solid var(--line);border-radius:999px;padding:8px 14px;background:transparent;
+  font-family:var(--font);transition:.18s;
+}
+.chip:hover{border-color:rgba(255,255,255,.3);color:#fff}
+.chip[aria-pressed="false"]{opacity:.35}
+.chip .swatch{width:10px;height:10px;border-radius:50%}
+.viewtog{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.viewtog button{
+  font-family:var(--font);background:transparent;border:0;color:var(--txt-dim);cursor:pointer;
+  padding:9px 14px;font-size:11.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+}
+.viewtog button[aria-pressed="true"]{background:rgba(255,255,255,.08);color:#fff}
+
+/* ================= RADAR ================= */
+.panel{
+  margin:22px 0 40px;border:1px solid var(--line-soft);border-radius:var(--radius);
+  background:linear-gradient(180deg, rgba(12,12,51,.78), rgba(4,4,26,.5));
+  padding:26px 26px 18px;position:relative;overflow:hidden;
+}
+.panel::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(700px 340px at 50% 118%, rgba(35,35,255,.22), transparent 70%);
+}
+.radar{position:relative;width:100%;aspect-ratio:2.15/1;min-height:340px}
+.rings{position:absolute;inset:0;overflow:hidden}
+.ring{
+  position:absolute;left:50%;bottom:0;transform:translateX(-50%);
+  aspect-ratio:1;border-radius:50%;
+}
+.ring.r3{width:80%;background:var(--ring-3);border:1.5px solid rgba(90,90,255,.85)}
+.ring.r2{width:54.4%;background:var(--ring-2);border:1.5px solid rgba(120,120,255,.7)}
+.ring.r1{width:33.6%;background:var(--ring-1);border:1.5px solid rgba(110,110,255,.60)}
+.axis-v{position:absolute;left:50%;bottom:0;width:1px;height:94%;background:rgba(255,255,255,.22)}
+.axis-h{position:absolute;left:10%;right:10%;bottom:0;height:1px;background:rgba(255,255,255,.14)}
+.half-label{
+  position:absolute;font-size:clamp(13px,1.45vw,20px);font-weight:700;letter-spacing:.5px;
+  color:rgba(255,255,255,.62);white-space:nowrap;pointer-events:none;
+}
+.half-label.left{left:17%;top:20%;transform:rotate(-38deg)}
+.half-label.right{right:17%;top:20%;transform:rotate(38deg)}
+
+.blips{position:absolute;inset:0}
+.blip{
+  position:absolute;left:var(--x);top:calc(var(--y) + var(--dy,0px));
+  display:flex;align-items:center;gap:6px;
+  background:none;border:0;padding:0;cursor:pointer;font-family:var(--font);
+  transition:filter .18s, opacity .2s;
+}
+.blip.left{transform:translate(calc(-100% + 44px),-50%)}
+.blip.right{transform:translate(-44px,-50%)}
+.blip .lbl{
+  background:var(--surface-2);color:#fff;border:1px solid rgba(255,255,255,.18);
+  border-radius:8px;padding:7px 11px;font-size:11.5px;font-weight:600;line-height:1.25;
+  max-width:190px;text-align:left;box-shadow:0 6px 18px rgba(0,0,0,.45);
+  transition:.18s;
+}
+.blip.right .lbl{text-align:left}
+.blip .dot{
+  width:16px;height:16px;border-radius:50%;flex:0 0 16px;
+  box-shadow:0 0 0 3px rgba(4,4,26,.9), 0 0 14px 1px currentColor;
+  background:currentColor;transition:.18s;
+}
+.blip[data-cat="consumer"] .dot{color:var(--cat-consumer)}
+.blip[data-cat="industrial"] .dot{color:var(--cat-industrial)}
+.blip:hover .lbl{background:var(--p3-blue);border-color:var(--p3-blue-bright);transform:translateY(-1px)}
+.blip:hover .dot{transform:scale(1.18)}
+.blip:focus-visible{outline:2px solid #fff;outline-offset:4px;border-radius:10px}
+.blip.dimmed{opacity:.16;pointer-events:none;filter:grayscale(1)}
+
+.flag{
+  width:30px;height:20px;border-radius:4px;flex:0 0 30px;
+  display:grid;place-items:center;font-size:8.5px;font-weight:700;letter-spacing:.3px;
+  border:1px solid rgba(255,255,255,.25);overflow:hidden;position:relative;
+}
+.flag.EU{background:#003399;color:#FFCC00}
+.flag.US{background:repeating-linear-gradient(180deg,#B22234 0 3px,#fff 3px 6px);color:#fff}
+.flag.US::after{content:"";position:absolute;left:0;top:0;width:14px;height:11px;background:#3C3B6E}
+.flag.US span{position:relative;z-index:2;text-shadow:0 0 3px #000}
+.flag.INT{background:var(--p3-blue-deep);color:#fff;font-size:12px}
+
+/* maturity axis */
+.mat-axis{display:flex;align-items:center;gap:0;margin-top:16px;padding-top:14px;border-top:1px solid var(--line-soft);flex-wrap:wrap}
+.mat-axis .steps{display:flex;align-items:center;gap:0;flex:1;min-width:280px}
+.mat-step{
+  position:relative;padding:4px 18px 4px 0;font-size:10.5px;font-weight:600;
+  letter-spacing:1.4px;text-transform:uppercase;color:var(--txt-mute);
+}
+.mat-step::after{content:"";position:absolute;right:6px;top:50%;width:1px;height:14px;background:var(--line);transform:translateY(-50%)}
+.mat-step.on{color:#fff}
+.mat-arrow{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent);position:relative;min-width:40px}
+.legend{display:flex;gap:18px;align-items:center;flex-wrap:wrap;font-size:11px;color:var(--txt-dim)}
+.legend .li{display:flex;align-items:center;gap:7px}
+.legend .sw{width:11px;height:11px;border-radius:50%}
+
+/* ================= LIST VIEW ================= */
+.listview{display:none}
+.listview.on{display:block}
+.radarview.off{display:none}
+.lgroup h3{
+  font-size:11px;letter-spacing:2.2px;text-transform:uppercase;color:var(--txt-mute);
+  margin:24px 0 12px;font-weight:700;
+}
+.lgroup:first-child h3{margin-top:4px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.card{
+  text-align:left;background:rgba(255,255,255,.035);border:1px solid var(--line-soft);
+  border-radius:12px;padding:16px;cursor:pointer;font-family:var(--font);color:#fff;
+  transition:.18s;display:flex;flex-direction:column;gap:10px;
+}
+.card:hover{background:rgba(35,35,255,.14);border-color:var(--p3-blue)}
+.card.dimmed{display:none}
+.card .top{display:flex;align-items:center;gap:9px}
+.card .nm{font-size:13.5px;font-weight:700;line-height:1.3}
+.card .tg{font-size:11.5px;color:var(--txt-dim);line-height:1.5}
+.card .meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
+.tag{font-size:9.5px;letter-spacing:.9px;text-transform:uppercase;font-weight:700;
+  padding:4px 8px;border-radius:999px;border:1px solid var(--line);color:var(--txt-dim)}
+.tag.published{border-color:rgba(70,255,150,.4);color:#5BE59A}
+.tag.final{border-color:rgba(255,190,60,.4);color:#FFC24A}
+.tag.draft{border-color:rgba(255,106,43,.45);color:var(--cat-consumer)}
+
+/* ================= MODAL ================= */
+.overlay{
+  position:fixed;inset:0;z-index:100;display:none;
+  background:rgba(2,2,14,.78);backdrop-filter:blur(8px);
+  padding:24px;overflow-y:auto;
+}
+.overlay.on{display:flex;align-items:flex-start;justify-content:center}
+.modal{
+  width:min(720px,100%);margin:auto;background:linear-gradient(180deg,var(--surface),#07071F);
+  border:1px solid var(--line);border-radius:18px;overflow:hidden;
+  box-shadow:0 40px 100px rgba(0,0,0,.7);animation:pop .22s ease-out;
+}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+.modal .mhead{padding:26px 28px 20px;border-bottom:1px solid var(--line-soft);position:relative;
+  background:linear-gradient(135deg,rgba(35,35,255,.30),transparent 65%)}
+.modal .mhead .row{display:flex;align-items:flex-start;gap:14px}
+.modal h2{margin:0 0 6px;font-size:21px;font-weight:800;letter-spacing:-.4px;line-height:1.25;padding-right:36px}
+.modal .full{font-size:12.5px;color:var(--txt-dim);line-height:1.55}
+.modal .mmeta{display:flex;gap:7px;flex-wrap:wrap;margin-top:16px}
+.close{
+  position:absolute;top:18px;right:18px;width:34px;height:34px;border-radius:50%;
+  background:rgba(255,255,255,.08);border:1px solid var(--line);color:#fff;
+  font-size:18px;line-height:1;cursor:pointer;display:grid;place-items:center;font-family:var(--font);
+}
+.close:hover{background:var(--p3-blue)}
+.mbody{padding:24px 28px 28px;display:flex;flex-direction:column;gap:22px}
+.sec h4{
+  margin:0 0 9px;font-size:10.5px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--p3-blue-bright);font-weight:700;
+}
+.sec p{margin:0;font-size:13.5px;line-height:1.7;color:#D9DCF5}
+.sec ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:7px}
+.sec li{font-size:13px;line-height:1.62;color:#D9DCF5}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:8px 14px}
+.kv dt{font-size:10.5px;letter-spacing:1.3px;text-transform:uppercase;color:var(--txt-mute);font-weight:700;padding-top:2px}
+.kv dd{margin:0;font-size:13px;color:#D9DCF5;line-height:1.55}
+.p3take{border-left:2px solid var(--p3-blue);background:rgba(35,35,255,.10);padding:14px 16px;border-radius:0 10px 10px 0}
+.p3take h4{color:#fff}
+.links{display:flex;gap:8px;flex-wrap:wrap}
+.links a{
+  font-size:11.5px;font-weight:600;border:1px solid var(--line);border-radius:8px;
+  padding:8px 13px;color:var(--txt-dim);text-decoration:none;transition:.18s;
+}
+.links a:hover{border-color:var(--p3-blue);color:#fff;background:rgba(35,35,255,.16);text-decoration:none}
+
+footer{border-top:1px solid var(--line-soft);margin-top:40px;padding:22px 0 40px}
+.foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11px;color:var(--txt-mute);letter-spacing:.4px}
+
+@media (max-width:860px){
+  .radar{aspect-ratio:1.35/1}
+  .blip .lbl{font-size:10px;max-width:120px;padding:5px 8px}
+  .flag{width:22px;height:15px;flex:0 0 22px;font-size:7px}
+  .blip .dot{width:12px;height:12px;flex:0 0 12px}
+  .blip.left{transform:translate(calc(-100% + 34px),-50%)}
+  .blip.right{transform:translate(-34px,-50%)}
+  .filters{margin-left:0}
+  .kv{grid-template-columns:1fr}
+  .half-label.left{left:6%;top:14%}
+  .half-label.right{right:6%;top:14%}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hdr">
+    <div class="logo">
+      <div class="mark">P3</div>
+      <div class="div"></div>
+      <div class="name">Regulatory Radar</div>
+    </div>
+    <div class="spacer"></div>
+    <div class="ver">Demo &middot; Q3 2026</div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="eyebrow"><span class="bar"></span><span id="domainEyebrow">Robotics</span></div>
+    <h1>Standards &amp; <em>Regulation</em> Landscape</h1>
+    <p class="lede" id="lede"></p>
+  </section>
+
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Domain">
+      <button data-domain="robotics" aria-pressed="true">Robotics</button>
+      <button data-domain="ad" aria-pressed="false">Autonomous Driving</button>
+    </div>
+    <div class="filters">
+      <button class="chip" data-filter="consumer" aria-pressed="true"><span class="swatch" style="background:var(--cat-consumer)"></span>Consumer / Service</button>
+      <button class="chip" data-filter="industrial" aria-pressed="true"><span class="swatch" style="background:var(--cat-industrial)"></span>Industrial</button>
+      <div class="viewtog" role="group" aria-label="View">
+        <button data-view="radar" aria-pressed="true">Radar</button>
+        <button data-view="list" aria-pressed="false">List</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="radarview" id="radarView">
+      <div class="radar" id="radar">
+        <div class="rings">
+          <div class="ring r3"></div>
+          <div class="ring r2"></div>
+          <div class="ring r1"></div>
+          <div class="axis-v"></div>
+          <div class="axis-h"></div>
+        </div>
+        <div class="half-label left">Cybersecurity</div>
+        <div class="half-label right">Functional Safety</div>
+        <div class="blips" id="blips"></div>
+      </div>
+      <div class="mat-axis">
+        <div class="steps">
+          <span class="mat-step">Draft</span>
+          <span class="mat-step">Finalization</span>
+          <span class="mat-step on">Published</span>
+          <span class="mat-arrow"></span>
+        </div>
+        <div class="legend">
+          <div class="li"><span class="sw" style="background:var(--cat-consumer)"></span>Consumer / Service</div>
+          <div class="li"><span class="sw" style="background:var(--cat-industrial)"></span>Industrial</div>
+          <div class="li"><span class="sw" style="background:var(--p3-blue-deep);border:1px solid var(--line)"></span>International</div>
+        </div>
+      </div>
+    </div>
+    <div class="listview" id="listView"></div>
+  </div>
+</main>
+
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="modal" id="modal"></div>
+</div>
+
+<footer>
+  <div class="wrap foot">
+    <div>P3 &mdash; Technology Consultancy &middot; Regulatory Radar (demo)</div>
+    <div>Illustrative content &middot; not legal advice</div>
+  </div>
+</footer>
+
+<script>
+/* =========================================================
+   DATA
+   axis: 'cyber' (left half) | 'safety' (right half)
+   ring: 'draft' | 'final' | 'published'  (outer -> inner)
+   cat : 'consumer' | 'industrial'
+   a   : angle in degrees (0 = right baseline, 180 = left baseline)
+   r   : radius fraction 0..1 of the outer dome
+   ========================================================= */
+const DATA = {
+  robotics: {
+    label: "Robotics",
+    lede: "Where the safety and cybersecurity rulebook for industrial, mobile and service robotics stands today — from published ISO/IEC baselines at the core to draft instruments still forming at the edge. Select any item for scope, status and what it means for product teams.",
+    items: [
+      /* ---------- CYBERSECURITY (left) ---------- */
+      {
+        id:"cra", name:"Cyber Resilience Act", full:"Regulation (EU) 2024/2847 on horizontal cybersecurity requirements for products with digital elements",
+        axis:"cyber", ring:"draft", cat:"industrial", region:"EU", a:176, rr:0.45,
+        tagline:"Horizontal EU cybersecurity law that pulls every connected robot into CE marking scope.",
+        meta:{Status:"In force, obligations phasing in", Applies:"Main obligations from 11 Dec 2027; vulnerability reporting from 11 Sep 2026", Body:"European Commission / ENISA", Scope:"All products with digital elements placed on the EU market"},
+        what:"The CRA is the first horizontal cybersecurity regulation covering any product with digital elements — hardware, firmware and standalone software. For robotics it sits on top of the Machinery Regulation: a robot arm, an AMR or a teach pendant app all fall in scope, and non-compliance blocks the CE mark.",
+        req:[
+          "Security-by-design and by-default: no known exploitable vulnerabilities at release, secure default configuration, attack-surface minimisation.",
+          "Coordinated vulnerability disclosure policy and an SBOM maintained in a machine-readable format.",
+          "Free security updates for the defined support period (minimum 5 years for most robotics products).",
+          "Report actively exploited vulnerabilities and severe incidents to ENISA / the national CSIRT within 24h (early warning) and 72h (full notification).",
+          "Conformity assessment route depends on whether the product is classed as default, Important (Class I/II) or Critical."
+        ],
+        take:"Most robotics OEMs underestimate the operational side: a PSIRT, a vulnerability intake channel and a build pipeline that emits a maintained SBOM are multi-quarter programmes, not documentation exercises. Harmonised standards are still being drafted, so early movers should map onto IEC 62443-4-1 / -4-2 as a proxy.",
+        links:[{l:"EUR-Lex 2024/2847",u:"https://eur-lex.europa.eu/eli/reg/2024/2847/oj"}]
+      },
+      {
+        id:"red", name:"RED · ETSI EN 303 645", full:"Radio Equipment Directive Delegated Regulation (EU) 2022/30 · EN 18031 series · ETSI EN 303 645",
+        axis:"cyber", ring:"final", cat:"consumer", region:"EU", a:161, rr:0.60,
+        tagline:"Baseline cybersecurity for any radio-connected robot sold in the EU.",
+        meta:{Status:"Applicable", Applies:"Since 1 August 2025", Body:"European Commission · CEN/CENELEC · ETSI", Scope:"Radio equipment: Wi-Fi / BLE / cellular-connected robots"},
+        what:"The RED delegated act activates Articles 3(3)(d), (e) and (f) of the Radio Equipment Directive — network protection, personal data protection and protection from fraud. The EN 18031 series provides the harmonised presumption of conformity; ETSI EN 303 645 remains the widely used consumer-IoT baseline behind it.",
+        req:[
+          "No universal default passwords — unique per-device credentials or forced change at commissioning.",
+          "Secure, authenticated software update mechanism with signed images.",
+          "Protection of personal and traffic data; minimise exposed network interfaces.",
+          "Network resilience: the device must not harm the network or other devices under fault or attack.",
+          "Documented means of reporting vulnerabilities."
+        ],
+        take:"For service and consumer robotics this is the nearest and cheapest win: EN 18031 assessment is well understood by notified bodies, and the controls overlap ~70% with what the CRA will demand in 2027. Do it once, reuse the evidence.",
+        links:[{l:"Delegated Reg. 2022/30",u:"https://eur-lex.europa.eu/eli/reg_del/2022/30/oj"},{l:"ETSI EN 303 645",u:"https://www.etsi.org/standards"}]
+      },
+      {
+        id:"iec62443", name:"IEC 62443 Certification", full:"IEC 62443 series — Security for industrial automation and control systems",
+        axis:"cyber", ring:"published", cat:"industrial", region:"INT", a:146, rr:0.96,
+        tagline:"The de-facto certification scheme for industrial robot controllers and cells.",
+        meta:{Status:"Published (multi-part, actively maintained)", Applies:"Now — increasingly contractual", Body:"IEC TC65 / ISA99", Scope:"IACS products, systems and the organisations that build them"},
+        what:"IEC 62443 is a family rather than a single standard. For robotics the load-bearing parts are 62443-4-1 (secure product development lifecycle), 62443-4-2 (technical security requirements for components, with Security Levels SL 1–4) and 62443-3-3 (system-level requirements for the integrated cell).",
+        req:[
+          "62443-4-1: defined secure development lifecycle — threat modelling, secure coding, verification, patch management.",
+          "62443-4-2: component requirements mapped to seven Foundational Requirements (IAC, UC, SI, DC, RDF, TRE, RA).",
+          "Target Security Level agreed per zone and conduit — SL 2 is the common contractual floor, SL 3 for critical infrastructure.",
+          "Certification through IECEE CB scheme or equivalent (TÜV, exida, UL)."
+        ],
+        take:"Automotive and pharma customers now put 62443-4-2 SL 2 in RFQs as a gate. The certification itself is achievable in ~9–12 months; the bottleneck is almost always 4-1 process evidence, not product features.",
+        links:[{l:"IEC 62443 overview",u:"https://www.iec.ch/blog/understanding-iec-62443"}]
+      },
+      {
+        id:"ce", name:"CE Marking", full:"Machinery Regulation (EU) 2023/1230 — CE conformity for machinery and robots",
+        axis:"cyber", ring:"published", cat:"industrial", region:"EU", a:118, rr:0.72,
+        tagline:"The EU market-access gate — and now explicitly a cybersecurity gate too.",
+        meta:{Status:"Published, replacing Directive 2006/42/EC", Applies:"From 20 January 2027", Body:"European Commission", Scope:"Machinery, safety components, partly completed machinery"},
+        what:"The new Machinery Regulation modernises CE marking for robotics. Two changes matter most: essential health and safety requirements now explicitly cover protection against corruption of safety-related software and data, and machinery with self-evolving (AI) behaviour that performs safety functions moves into the high-risk Annex I list requiring notified-body involvement.",
+        req:[
+          "Risk assessment must cover malicious third-party interference with safety functions.",
+          "Safety-related control system logs and traceability of software modifications.",
+          "Digital instructions for use are permitted — with a paper option on request.",
+          "Annex I Part A machinery (incl. certain AI-driven safety functions) requires third-party conformity assessment.",
+          "Substantial modification by an integrator can create a new manufacturer obligation."
+        ],
+        take:"January 2027 lands at the same time as CRA full application. Teams that treat these as one combined technical file — one risk assessment, one lifecycle, one evidence set — save roughly a third of the effort versus running them as separate projects.",
+        links:[{l:"EUR-Lex 2023/1230",u:"https://eur-lex.europa.eu/eli/reg/2023/1230/oj"}]
+      },
+      {
+        id:"iso13849", name:"ISO 13849 / IEC·EN 61508", full:"ISO 13849-1:2023 · IEC 61508 · IEC 62061 — functional safety of control systems",
+        axis:"cyber", ring:"published", cat:"consumer", region:"INT", a:97, rr:0.28,
+        tagline:"The functional-safety bedrock every robot safety function is argued against.",
+        meta:{Status:"Published · ISO 13849-1 revised 2023", Applies:"Now", Body:"ISO TC199 · IEC TC65", Scope:"Safety-related parts of control systems (SRP/CS)"},
+        what:"ISO 13849-1 defines Performance Levels (PL a–e) from architecture category, MTTFD, diagnostic coverage and common-cause failure. IEC 61508 provides the underlying SIL framework for programmable electronics, with IEC 62061 as the machinery-sector view. Nearly every robot safety function — safe stop, safely limited speed, safe zone monitoring — is validated against one of these.",
+        req:[
+          "Determine required Performance Level (PLr) per safety function via risk graph.",
+          "Architecture categories B, 1–4 with quantified MTTFD and DCₐᵥᵍ.",
+          "Systematic capability and software requirements (SRASW / SRESW).",
+          "Validation per ISO 13849-2 including fault injection.",
+          "2023 revision tightened software requirements and removed the simplified PL determination table."
+        ],
+        take:"The 2023 revision quietly raised the bar on software evidence. Legacy PL d arguments built on the old simplified method need re-work before they are reused in a new technical file.",
+        links:[{l:"ISO 13849-1:2023",u:"https://www.iso.org/standard/73481.html"}]
+      },
+      /* ---------- FUNCTIONAL SAFETY (right) ---------- */
+      {
+        id:"astm", name:"ASTM F45.06", full:"ASTM F45 — Driverless Automatic Guided Industrial Vehicles (A-UGV), Subcommittee F45.06 on Safety",
+        axis:"safety", ring:"final", cat:"industrial", region:"US", a:80, rr:0.75,
+        tagline:"The US performance-test framework for autonomous industrial vehicles.",
+        meta:{Status:"Active development · parts published", Applies:"Voluntary, increasingly cited in US procurement", Body:"ASTM International Committee F45", Scope:"A-UGVs: AGVs, AMRs and unmanned industrial vehicles"},
+        what:"ASTM F45 takes a performance-testing approach where ISO takes a requirements approach. The published set includes F3200 (terminology), F3218 (documenting environment), F3244 (navigation performance test method) and F3265 (safety). F45.06 continues to extend the safety envelope, notably for mixed human-vehicle traffic.",
+        req:[
+          "Standardised test methods rather than prescriptive design requirements.",
+          "Documented operational environment as a precondition for any performance claim.",
+          "Navigation and docking accuracy measured under repeatable, published procedures.",
+          "Obstacle detection performance characterised across object sizes and approach angles."
+        ],
+        take:"If you sell AMRs into North American logistics, F3244 test data is becoming the language buyers compare vendors in. It is also the cheapest way to make a performance claim defensible.",
+        links:[{l:"ASTM Committee F45",u:"https://www.astm.org/committee-f45"}]
+      },
+      {
+        id:"iso10218", name:"ISO 10218:2025", full:"ISO 10218-1:2025 · ISO 10218-2:2025 — Robotics, safety requirements for industrial robots",
+        axis:"safety", ring:"published", cat:"industrial", region:"INT", a:50, rr:0.96,
+        tagline:"The 2025 rewrite — collaborative operation folded into the core standard.",
+        meta:{Status:"Published February 2025", Applies:"Now · transition from the 2011 edition underway", Body:"ISO TC299 WG3", Scope:"Part 1: robots · Part 2: robot systems, cells and integration"},
+        what:"The long-awaited revision replaces the 2011 edition and absorbs the collaborative-operation content previously carried in ISO/TS 15066. It introduces a robot classification scheme, restructures the requirements around safety functions with required Performance Levels, and substantially expands the integrator obligations in Part 2.",
+        req:[
+          "Robot classes (I / II / III) driven by application risk rather than payload alone.",
+          "Safety functions specified with PLr / SIL targets directly in the standard.",
+          "Collaborative applications: power-and-force limiting values integrated from TS 15066.",
+          "Expanded requirements on validation of safety-rated soft axis and space limiting.",
+          "Part 2 adds explicit requirements for end effectors, changeover and mobile-manipulator integration."
+        ],
+        take:"The migration is not cosmetic. Cells certified to 10218:2011 keep their validity for now, but any new PL argument, and every collaborative application, should be built directly on the 2025 structure — re-mapping later costs more than starting there.",
+        links:[{l:"ISO 10218-1:2025",u:"https://www.iso.org/standard/73933.html"}]
+      },
+      {
+        id:"iso13482", name:"ISO 13482", full:"ISO 13482:2014 — Robots and robotic devices, safety requirements for personal care robots",
+        axis:"safety", ring:"published", cat:"consumer", region:"INT", a:28, rr:0.74,
+        tagline:"The service-robotics safety standard — published, ageing, under revision.",
+        meta:{Status:"Published 2014 · revision in progress", Applies:"Now", Body:"ISO TC299 WG2", Scope:"Mobile servant, physical assistant and person-carrier robots"},
+        what:"ISO 13482 was the first international safety standard for non-industrial robots operating in close proximity to people. It defines three personal-care robot types and covers hazards that industrial standards do not: instability, unintended motion in unstructured environments, and incorrect autonomous decisions.",
+        req:[
+          "Type-specific requirements for mobile servant, physical assistant and person carrier robots.",
+          "Protective stop and safety-related control system performance.",
+          "Stability under foreseeable use and misuse, including slopes and payload shifts.",
+          "Limits on contact forces and pressures with humans.",
+          "Requirements for the robot's awareness of its operating environment."
+        ],
+        take:"Its weak point is autonomy: the 2014 text predates learned perception and planning, so anything ML-driven needs supplementary argumentation. Expect the revision to converge toward the SOTIF-style thinking already used in automotive.",
+        links:[{l:"ISO 13482:2014",u:"https://www.iso.org/standard/53820.html"}]
+      },
+      {
+        id:"iso25785", name:"ISO/AWI 25785-1", full:"ISO/AWI 25785-1 — Industrial mobile robots, safety requirements, Part 1: robots and equipment",
+        axis:"safety", ring:"draft", cat:"industrial", region:"US", a:14, rr:0.72,
+        tagline:"The coming international standard purpose-built for AMRs.",
+        meta:{Status:"Approved Work Item — draft stage", Applies:"Not yet · expected end of decade", Body:"ISO TC299 · strong US (A3 / ASTM) input", Scope:"Industrial mobile robots, incl. mobile manipulators"},
+        what:"Today AMR safety is argued from a patchwork: ISO 3691-4 for driverless trucks, ISO 10218 for the manipulator, ISO 13849 for the control system. ISO 25785-1 is the attempt to replace that patchwork with a single coherent standard covering the mobile platform, its equipment and the mobile manipulator as one machine.",
+        req:[
+          "Unified treatment of the platform plus manipulator as a single safety-related system.",
+          "Requirements for dynamic environments with unconstrained human presence.",
+          "Fleet-level and traffic-management safety considerations.",
+          "Expected alignment with ANSI/A3 R15.08 work already published in the US."
+        ],
+        take:"This is the item to track rather than act on. Design decisions taken now — particularly around how platform and arm safety functions are decomposed — will be expensive to revisit if they do not survive the draft.",
+        links:[{l:"ISO/AWI 25785-1",u:"https://www.iso.org/standard/83615.html"}]
+      },
+      {
+        id:"r1506", name:"ANSI/A3 R15.06-2025", full:"ANSI/A3 R15.06-2025 — American National Standard for Industrial Robots and Robot Systems, Safety Requirements",
+        axis:"safety", ring:"published", cat:"industrial", region:"US", a:7, rr:0.42,
+        tagline:"The US national adoption of ISO 10218:2025.",
+        meta:{Status:"Published 2025", Applies:"Now · referenced by OSHA in enforcement", Body:"A3 (Association for Advancing Automation)", Scope:"Industrial robots and robot systems in the United States"},
+        what:"R15.06 is the US national adoption of ISO 10218, kept deliberately close to the international text with US-specific deviations. Although voluntary, OSHA cites it under the General Duty Clause, which gives it effective regulatory weight in the US market.",
+        req:[
+          "Technically aligned with ISO 10218-1/-2:2025, including the robot classification scheme.",
+          "US-specific deviations on terminology, lockout/tagout and documentation.",
+          "Companion R15.08 covers industrial mobile robots separately.",
+          "Integrator responsibilities mirror ISO 10218-2 Part 2."
+        ],
+        take:"For OEMs shipping to both markets, one technical file built on ISO 10218:2025 with a documented R15.06 deviation annex is now realistic. That was not true under the 2011/2012 editions.",
+        links:[{l:"A3 standards",u:"https://www.automate.org/robotics/robot-safety/robot-safety-standards"}]
+      }
+    ]
+  },
+
+  ad: {
+    label: "Autonomous Driving",
+    lede: "The type-approval and engineering-standard landscape for automated and connected vehicles — mature UNECE regulations and ISO baselines at the core, with ADS-specific and AI-related instruments still forming at the edge. Select any item for scope, status and engineering impact.",
+    items: [
+      /* ---------- CYBERSECURITY (left) ---------- */
+      {
+        id:"aiact", name:"EU AI Act", full:"Regulation (EU) 2024/1689 — Artificial Intelligence Act",
+        axis:"cyber", ring:"draft", cat:"consumer", region:"EU", a:174, rr:0.50,
+        tagline:"Horizontal AI law whose interaction with vehicle type-approval is still being worked out.",
+        meta:{Status:"In force, phased application", Applies:"GPAI obligations Aug 2025 · high-risk Annex I from Aug 2027", Body:"European Commission · AI Office", Scope:"AI systems placed on the EU market"},
+        what:"The AI Act classifies AI systems by risk. Safety components of products already covered by EU type-approval legislation fall under Annex I, which routes compliance through the existing sectoral framework rather than a parallel process — but with AI Act requirements layered on top of it.",
+        req:[
+          "Risk management system maintained across the full AI lifecycle.",
+          "Data governance: training, validation and test set quality, representativeness and bias examination.",
+          "Technical documentation, automatic logging and traceability of AI decisions.",
+          "Human oversight design and accuracy/robustness/cybersecurity targets.",
+          "For vehicles: assessed through the type-approval route under Regulation (EU) 2019/2144 rather than standalone."
+        ],
+        take:"The open question for AD teams is scope: which perception and planning components count as AI safety components. Until guidance settles, the pragmatic move is to make the data-governance and logging evidence AI-Act-shaped anyway — it is largely what SOTIF validation already produces.",
+        links:[{l:"EUR-Lex 2024/1689",u:"https://eur-lex.europa.eu/eli/reg/2024/1689/oj"}]
+      },
+      {
+        id:"r155", name:"UN R155 · CSMS", full:"UN Regulation No. 155 — Cyber security and cyber security management system",
+        axis:"cyber", ring:"published", cat:"industrial", region:"INT", a:152, rr:0.96,
+        tagline:"No CSMS certificate, no type approval — the hard gate for EU vehicle cybersecurity.",
+        meta:{Status:"In force", Applies:"All new vehicles in the EU since July 2024", Body:"UNECE WP.29 / GRVA", Scope:"Vehicle types in UNECE 1958 Agreement contracting parties"},
+        what:"R155 requires the manufacturer to hold a valid Cyber Security Management System certificate before a vehicle type can be approved, and to demonstrate that identified risks for that specific type are managed. It is process regulation and product regulation at once.",
+        req:[
+          "CSMS certificate covering development, production and post-production phases.",
+          "Threat analysis and risk assessment per vehicle type, with the Annex 5 threat catalogue as the floor.",
+          "Demonstrated mitigations and evidence of testing for each identified risk.",
+          "Monitoring, detection and response capability for the vehicle fleet in the field.",
+          "Management of suppliers' contributions to the cybersecurity case."
+        ],
+        take:"The recurring audit finding is not the TARA — it is post-production monitoring. A CSMS that cannot show live fleet detection and a rehearsed response path will not survive re-certification.",
+        links:[{l:"UN R155",u:"https://unece.org/transport/documents/2021/03/standards/un-regulation-no-155-cyber-security-and-cyber-security"}]
+      },
+      {
+        id:"r156", name:"UN R156 · SUMS", full:"UN Regulation No. 156 — Software update and software update management system",
+        axis:"cyber", ring:"published", cat:"industrial", region:"INT", a:130, rr:0.74,
+        tagline:"OTA updates are only legal if the update process itself is type-approved.",
+        meta:{Status:"In force", Applies:"All new vehicles in the EU since July 2024", Body:"UNECE WP.29 / GRVA", Scope:"Vehicles capable of software updates, incl. OTA"},
+        what:"R156 requires a certified Software Update Management System and introduces RXSWIN — the software identification number tied to type-approval-relevant software. Any update that changes approval-relevant behaviour must be traced, assessed and, where needed, re-approved.",
+        req:[
+          "SUMS certificate covering update processes, configuration management and traceability.",
+          "RXSWIN maintained and readable from the vehicle.",
+          "Assessment of whether each update affects type approval before deployment.",
+          "Update integrity and authenticity protection; safe execution conditions (vehicle state, power, rollback).",
+          "User information for updates that change functionality."
+        ],
+        take:"RXSWIN discipline is where most programmes leak time. If the mapping from ECU software versions to approval-relevant baselines is not automated in the toolchain, every OTA campaign becomes a manual regulatory exercise.",
+        links:[{l:"UN R156",u:"https://unece.org/transport/documents/2021/03/standards/un-regulation-no-156-software-update-and-software-update"}]
+      },
+      {
+        id:"iso21434", name:"ISO/SAE 21434", full:"ISO/SAE 21434:2021 — Road vehicles, cybersecurity engineering",
+        axis:"cyber", ring:"published", cat:"industrial", region:"INT", a:108, rr:0.50,
+        tagline:"The engineering standard used to demonstrate R155 compliance.",
+        meta:{Status:"Published 2021", Applies:"Now · de-facto contractual baseline", Body:"ISO TC22/SC32 · SAE", Scope:"E/E systems in road vehicles, concept through decommissioning"},
+        what:"ISO/SAE 21434 defines cybersecurity engineering across the vehicle lifecycle: organisational governance, project-dependent activities, TARA methodology, and distributed responsibilities between OEM and suppliers through the Cybersecurity Interface Agreement.",
+        req:[
+          "Threat Analysis and Risk Assessment with impact and attack feasibility rating.",
+          "Cybersecurity goals and claims traced to requirements, then to verification evidence.",
+          "Cybersecurity Assurance Level (CAL) as an optional rigour scale.",
+          "Cybersecurity Interface Agreement (CIA) with each supplier.",
+          "Post-development: incident response, vulnerability management, end of support."
+        ],
+        take:"21434 is the evidence engine behind R155. Where programmes struggle is the supplier interface — a CIA signed late, or with vague activity split, turns into a gap the auditor finds at exactly the wrong moment.",
+        links:[{l:"ISO/SAE 21434:2021",u:"https://www.iso.org/standard/70918.html"}]
+      },
+      {
+        id:"iso24089", name:"ISO 24089", full:"ISO 24089:2023 — Road vehicles, software update engineering",
+        axis:"cyber", ring:"published", cat:"industrial", region:"INT", a:94, rr:0.20,
+        tagline:"The engineering counterpart to UN R156.",
+        meta:{Status:"Published 2023", Applies:"Now", Body:"ISO TC22/SC32", Scope:"Software update engineering at vehicle, ECU and infrastructure level"},
+        what:"ISO 24089 gives the technical practices behind a SUMS: how update campaigns are engineered, how the update infrastructure itself is treated as a safety- and security-relevant system, and how vehicle-level update integrity is preserved.",
+        req:[
+          "Organisational and project-level software update engineering processes.",
+          "Update package design, verification and campaign management.",
+          "Requirements on the update infrastructure (backend) as part of the system.",
+          "Vehicle-level preconditions, rollback and failure handling.",
+          "Traceability from update content to affected approval baselines."
+        ],
+        take:"Pair it with 21434 and R156 as one workstream. Treating the backend as out-of-scope infrastructure is the single most common structural mistake.",
+        links:[{l:"ISO 24089:2023",u:"https://www.iso.org/standard/77796.html"}]
+      },
+      /* ---------- FUNCTIONAL SAFETY (right) ---------- */
+      {
+        id:"avstep", name:"NHTSA AV Framework", full:"NHTSA AV Exemption Program · AV STEP proposed rule · FMVSS adaptation",
+        axis:"safety", ring:"draft", cat:"consumer", region:"US", a:82, rr:0.50,
+        tagline:"The US federal route for vehicles without conventional driving controls.",
+        meta:{Status:"Proposed / in rulemaking", Applies:"Not final", Body:"NHTSA · US DOT", Scope:"ADS-equipped vehicles operating on US public roads"},
+        what:"The US has no type approval; manufacturers self-certify to FMVSS. Because several FMVSS assume a human driver and conventional controls, NHTSA has proposed a national review and exemption pathway (AV STEP) for ADS-equipped vehicles, alongside amendments removing driver-centric assumptions from existing standards.",
+        req:[
+          "Self-certification to applicable FMVSS, with exemptions where controls are absent.",
+          "Proposed AV STEP participation: safety case submission plus ongoing incident and performance reporting.",
+          "Standing General Order crash reporting for ADS and Level 2 ADAS.",
+          "State-level operating authority remains separate and varies significantly."
+        ],
+        take:"The practical consequence for European OEMs is dual evidence: a UNECE-shaped approval dossier and a US-shaped safety case. They draw on the same validation data but are argued very differently — plan the data model for both from the start.",
+        links:[{l:"NHTSA automated vehicles",u:"https://www.nhtsa.gov/vehicle-safety/automated-vehicles-safety"}]
+      },
+      {
+        id:"ts5083", name:"ISO/TS 5083", full:"ISO/TS 5083 — Road vehicles, safety for automated driving systems, design, verification and validation",
+        axis:"safety", ring:"final", cat:"industrial", region:"INT", a:62, rr:0.70,
+        tagline:"The integrating document that ties 26262, SOTIF and cybersecurity into one safety case.",
+        meta:{Status:"Technical Specification · recently published, maturing toward IS", Applies:"Voluntary, rapidly becoming the reference", Body:"ISO TC22/SC32/WG14", Scope:"SAE Level 3+ automated driving systems"},
+        what:"ISO/TS 5083 succeeds the earlier ISO/TR 4804 and provides an end-to-end framework for arguing that an automated driving system is acceptably safe — spanning functional safety, SOTIF, cybersecurity, the operational design domain and the validation strategy.",
+        req:[
+          "Explicit ODD definition and the safety argument bound to it.",
+          "Integration of ISO 26262 (E/E faults) and ISO 21448 (performance limitations) into one case.",
+          "Guidance on validation targets, scenario-based testing and residual-risk argumentation.",
+          "Treatment of machine-learning components within the safety lifecycle.",
+          "Field monitoring and continuous safety assurance after deployment."
+        ],
+        take:"This is the document most L3/L4 programmes will structure their safety case around. Starting the case late — after architecture is frozen — is what makes validation budgets explode.",
+        links:[{l:"ISO/TS 5083",u:"https://www.iso.org/standard/81920.html"}]
+      },
+      {
+        id:"iso26262", name:"ISO 26262", full:"ISO 26262:2018 — Road vehicles, functional safety",
+        axis:"safety", ring:"published", cat:"industrial", region:"INT", a:44, rr:0.96,
+        tagline:"The functional-safety baseline every automotive E/E argument still rests on.",
+        meta:{Status:"Published 2018 (2nd edition)", Applies:"Now · universal industry expectation", Body:"ISO TC22/SC32/WG8", Scope:"Safety-related E/E systems in series production road vehicles"},
+        what:"ISO 26262 addresses hazards caused by malfunctioning behaviour of electrical and electronic systems. It defines ASIL A–D from severity, exposure and controllability, then scales process rigour, architectural metrics and verification depth to that classification.",
+        req:[
+          "HARA producing ASIL-rated safety goals.",
+          "Functional and technical safety concepts with decomposition where used.",
+          "Hardware architectural metrics (SPFM, LFM, PMHF) for ASIL C/D.",
+          "Software safety requirements, coding guidelines, unit and integration verification.",
+          "Safety element out of context and confirmation measures (review, audit, assessment)."
+        ],
+        take:"Well understood — but for automated driving its blind spot matters: 26262 assumes the intended function is safe and only faults are hazardous. Everything that is hazardous without a fault is ISO 21448's problem.",
+        links:[{l:"ISO 26262-1:2018",u:"https://www.iso.org/standard/68383.html"}]
+      },
+      {
+        id:"sotif", name:"ISO 21448 · SOTIF", full:"ISO 21448:2022 — Road vehicles, safety of the intended functionality",
+        axis:"safety", ring:"published", cat:"industrial", region:"INT", a:28, rr:0.78,
+        tagline:"Safety when nothing is broken — the standard that covers perception limits.",
+        meta:{Status:"Published 2022", Applies:"Now · required for any credible ADS safety case", Body:"ISO TC22/SC32/WG8", Scope:"Functions relying on sensing and complex algorithms, incl. ADAS and ADS"},
+        what:"SOTIF addresses hazards arising from functional insufficiencies and reasonably foreseeable misuse rather than from faults: a perception stack that misclassifies in low sun, a planner that behaves unexpectedly in a rare scenario. It structures the problem into known/unknown and safe/unsafe scenario areas and drives them down through analysis and testing.",
+        req:[
+          "Identification of functional insufficiencies and triggering conditions.",
+          "Scenario-based analysis moving unknown-unsafe into known, then into safe.",
+          "Acceptance criteria and validation targets with quantitative argument.",
+          "Verification of measures against misuse and degradation.",
+          "Field data feedback loop after release."
+        ],
+        take:"SOTIF is where the real validation cost of automated driving sits. The decisive early choice is the scenario catalogue and its provenance — teams that build it from real fleet data rather than from imagination converge far faster.",
+        links:[{l:"ISO 21448:2022",u:"https://www.iso.org/standard/77490.html"}]
+      },
+      {
+        id:"r157", name:"UN R157 · ALKS", full:"UN Regulation No. 157 — Automated Lane Keeping Systems",
+        axis:"safety", ring:"published", cat:"consumer", region:"INT", a:14, rr:0.60,
+        tagline:"The first binding international type-approval regulation for a Level 3 function.",
+        meta:{Status:"In force · amended to 130 km/h", Applies:"Now, in UNECE contracting parties", Body:"UNECE WP.29 / GRVA", Scope:"Level 3 automated lane keeping on divided highways"},
+        what:"R157 made Level 3 legally approvable. It sets the system safety requirements, the transition demand and minimum risk manoeuvre behaviour, the Driver Availability Recognition System and the Data Storage System for Automated Driving, plus an audit-and-test based assessment of the manufacturer's safety argument.",
+        req:[
+          "Defined operational conditions; amended scope allows up to 130 km/h and lane changes.",
+          "Transition demand with defined timing, and minimum risk manoeuvre on no response.",
+          "Driver availability recognition (eyes/hands/responsiveness).",
+          "DSSAD event recording with defined data elements.",
+          "Assessment combining audit of the safety management system, scenario testing and real-world driving."
+        ],
+        take:"R157's assessment model — audit plus scenario catalogue plus track and road testing — is the template later ADS regulation is following. Organisations that built the R157 evidence machinery are markedly faster on everything after it.",
+        links:[{l:"UN R157",u:"https://unece.org/transport/documents/2021/03/standards/un-regulation-no-157-automated-lane-keeping-systems-alks"}]
+      },
+      {
+        id:"eu1426", name:"EU 2022/1426 · ADS", full:"Commission Implementing Regulation (EU) 2022/1426 — type-approval of automated driving systems in fully automated vehicles",
+        axis:"safety", ring:"published", cat:"industrial", region:"EU", a:4, rr:0.34,
+        tagline:"The EU route to approving driverless vehicles in small series.",
+        meta:{Status:"In force since 2022", Applies:"Now", Body:"European Commission", Scope:"ADS in fully automated vehicles (EU small-series type approval)"},
+        what:"Adopted under the General Safety Regulation (EU) 2019/2144, this implementing act sets uniform procedures for approving fully automated vehicles in the EU — including ones without a driver. It covers the safety requirements, the assessment methodology and in-service reporting.",
+        req:[
+          "ADS safety requirements covering ODD, dynamic driving task and minimum risk condition.",
+          "Multi-pillar assessment: scenario-based audit, track testing, real-world testing.",
+          "Cybersecurity and software update compliance via R155 / R156.",
+          "In-service monitoring and reporting obligations to the approval authority.",
+          "Currently structured around EU small-series volumes, with broader frameworks developing."
+        ],
+        take:"This is the concrete European path to a driverless product today. Its multi-pillar assessment aligns closely with ISO/TS 5083 — one safety case, argued once, can serve both if it is structured that way from the beginning.",
+        links:[{l:"EUR-Lex 2022/1426",u:"https://eur-lex.europa.eu/eli/reg_impl/2022/1426/oj"}]
+      }
+    ]
+  }
+};
+
+const RING_LABEL = { draft:"Draft", final:"Finalization", published:"Published" };
+const CAT_LABEL  = { consumer:"Consumer / Service", industrial:"Industrial" };
+const REGION_LABEL = { EU:"European Union", US:"United States", INT:"International" };
+const FLAG_TXT = { EU:"EU", US:"US", INT:"\u{1F310}" };
+
+/* ---------------- STATE ---------------- */
+const NARROW = 760;
+let state = { domain:"robotics", view: window.innerWidth < NARROW ? "list" : "radar", cats:new Set(["consumer","industrial"]) };
+
+const $  = (s,c=document)=>c.querySelector(s);
+const $$ = (s,c=document)=>[...c.querySelectorAll(s)];
+
+function flagEl(region){
+  const inner = region==="US" ? '<span>US</span>' : FLAG_TXT[region];
+  return '<span class="flag '+region+'" title="'+REGION_LABEL[region]+'">'+inner+'</span>';
+}
+
+/* ---------------- RADAR ---------------- */
+const ASPECT = 2.15;                       // must match .radar aspect-ratio
+const BAND = { published:[0.10,0.40], final:[0.46,0.64], draft:[0.70,0.94] };
+
+/* radius is derived from the ring so a blip can never be plotted
+   in a band that contradicts its published/finalization/draft status.
+   `rr` (0..1) only picks the position *within* that band. */
+function radiusOf(item){
+  const [lo,hi] = BAND[item.ring];
+  return lo + (hi-lo) * (item.rr ?? 0.5);
+}
+function pos(item){
+  const rad = item.a * Math.PI/180;
+  const r = radiusOf(item);
+  const x = 50 + 40 * r * Math.cos(rad);            // dome radius = 40% of width
+  const y = 100 - 40 * ASPECT * r * Math.sin(rad);
+  return { x, y };
+}
+
+function renderRadar(){
+  const items = DATA[state.domain].items;
+  const host = $("#blips");
+  host.innerHTML = items.map(it=>{
+    const p = pos(it);
+    const side = it.axis === "cyber" ? "left" : "right";
+    const lbl  = '<span class="lbl">'+it.name+'</span>';
+    const dot  = '<span class="dot"></span>';
+    const flg  = flagEl(it.region);
+    const inner = side==="left" ? lbl+dot+flg : flg+dot+lbl;
+    return '<button class="blip '+side+'" data-id="'+it.id+'" data-cat="'+it.cat+'" '+
+           'style="--x:'+p.x.toFixed(2)+'%;--y:'+p.y.toFixed(2)+'%" '+
+           'title="'+it.name+' — '+RING_LABEL[it.ring]+'">'+inner+'</button>';
+  }).join("");
+  requestAnimationFrame(deoverlap);
+}
+
+/* nudge labels vertically so chips never collide */
+function deoverlap(){
+  const host = $("#blips");
+  const nodes = $$(".blip", host).filter(n=>!n.classList.contains("dimmed"));
+  nodes.forEach(n=>n.style.setProperty("--dy","0px"));
+  const H = host.getBoundingClientRect().height;
+  if(!H) return;
+  const box = n => { const r=n.getBoundingClientRect(); return {n,l:r.left,r:r.right,t:r.top,b:r.bottom}; };
+  const hb = host.getBoundingClientRect();
+  for(let pass=0; pass<16; pass++){
+    let moved = false;
+    const bs = nodes.map(box).sort((a,b)=>a.t-b.t);
+    for(let i=0;i<bs.length;i++){
+      for(let j=i+1;j<bs.length;j++){
+        const A=bs[i], B=bs[j];
+        const ox = Math.min(A.r,B.r) - Math.max(A.l,B.l);
+        const oy = Math.min(A.b,B.b) - Math.max(A.t,B.t);
+        if(ox > -4 && oy > -3){
+          const push = (oy + 6) / 2;
+          shift(A.n, -push); shift(B.n, push);
+          A.t-=push; A.b-=push; B.t+=push; B.b+=push;
+          moved = true;
+        }
+      }
+    }
+    // keep every chip inside the radar box (the baseline row would otherwise
+    // spill onto the maturity axis below)
+    for(const b of bs){
+      let d = 0;
+      if(b.b > hb.bottom) d = hb.bottom - b.b;
+      else if(b.t < hb.top) d = hb.top - b.t;
+      if(d){ shift(b.n, d); b.t+=d; b.b+=d; moved = true; }
+    }
+    if(!moved) break;
+  }
+}
+function shift(el, dy){
+  const cur = parseFloat(el.style.getPropertyValue("--dy")) || 0;
+  el.style.setProperty("--dy", (cur+dy).toFixed(1)+"px");
+}
+
+/* ---------------- LIST ---------------- */
+function renderList(){
+  const items = DATA[state.domain].items;
+  const groups = [["cyber","Cybersecurity"],["safety","Functional Safety"]];
+  $("#listView").innerHTML = groups.map(([ax,title])=>{
+    const rows = items.filter(i=>i.axis===ax)
+      .sort((a,b)=>["draft","final","published"].indexOf(a.ring)-["draft","final","published"].indexOf(b.ring))
+      .map(it=>
+        '<button class="card" data-id="'+it.id+'" data-cat="'+it.cat+'">'+
+          '<div class="top">'+flagEl(it.region)+'<span class="dot" style="width:10px;height:10px;border-radius:50%;background:var(--cat-'+it.cat+')"></span>'+
+          '<span class="nm">'+it.name+'</span></div>'+
+          '<div class="tg">'+it.tagline+'</div>'+
+          '<div class="meta"><span class="tag '+it.ring+'">'+RING_LABEL[it.ring]+'</span>'+
+          '<span class="tag">'+REGION_LABEL[it.region]+'</span></div>'+
+        '</button>').join("");
+    return '<div class="lgroup"><h3>'+title+'</h3><div class="cards">'+rows+'</div></div>';
+  }).join("");
+}
+
+/* ---------------- MODAL ---------------- */
+let lastFocus = null;
+function openModal(id){
+  const it = DATA[state.domain].items.find(x=>x.id===id);
+  if(!it) return;
+  lastFocus = document.activeElement;
+  $("#modal").innerHTML =
+    '<div class="mhead">'+
+      '<button class="close" id="closeBtn" aria-label="Close">&times;</button>'+
+      '<div class="row">'+flagEl(it.region)+
+        '<div><h2 id="mTitle">'+it.name+'</h2><div class="full">'+it.full+'</div></div>'+
+      '</div>'+
+      '<div class="mmeta">'+
+        '<span class="tag '+it.ring+'">'+RING_LABEL[it.ring]+'</span>'+
+        '<span class="tag">'+CAT_LABEL[it.cat]+'</span>'+
+        '<span class="tag">'+(it.axis==="cyber"?"Cybersecurity":"Functional Safety")+'</span>'+
+        '<span class="tag">'+DATA[state.domain].label+'</span>'+
+      '</div>'+
+    '</div>'+
+    '<div class="mbody">'+
+      '<div class="sec"><h4>What it is</h4><p>'+it.what+'</p></div>'+
+      '<div class="sec"><h4>At a glance</h4><dl class="kv">'+
+        Object.entries(it.meta).map(([k,v])=>'<dt>'+k+'</dt><dd>'+v+'</dd>').join("")+
+      '</dl></div>'+
+      '<div class="sec"><h4>Key requirements</h4><ul>'+it.req.map(r=>'<li>'+r+'</li>').join("")+'</ul></div>'+
+      '<div class="sec p3take"><h4>P3 perspective</h4><p>'+it.take+'</p></div>'+
+      '<div class="sec"><h4>Reference</h4><div class="links">'+
+        it.links.map(l=>'<a href="'+l.u+'" target="_blank" rel="noopener">'+l.l+' ↗</a>').join("")+
+      '</div></div>'+
+    '</div>';
+  $("#overlay").classList.add("on");
+  document.body.style.overflow="hidden";
+  $("#closeBtn").focus();
+}
+function closeModal(){
+  $("#overlay").classList.remove("on");
+  document.body.style.overflow="";
+  if(lastFocus) lastFocus.focus();
+}
+
+/* ---------------- FILTERS / RENDER ---------------- */
+function applyFilters(){
+  $$(".blip").forEach(b=> b.classList.toggle("dimmed", !state.cats.has(b.dataset.cat)) );
+  $$(".card").forEach(c=> c.classList.toggle("dimmed", !state.cats.has(c.dataset.cat)) );
+  requestAnimationFrame(deoverlap);
+}
+function render(){
+  $("#domainEyebrow").textContent = DATA[state.domain].label;
+  $("#lede").textContent = DATA[state.domain].lede;
+  renderRadar();
+  renderList();
+  applyFilters();
+  $("#radarView").classList.toggle("off", state.view!=="radar");
+  $("#listView").classList.toggle("on", state.view==="list");
+  $$(".viewtog button").forEach(x=> x.setAttribute("aria-pressed", String(x.dataset.view===state.view)));
+}
+
+/* ---------------- EVENTS ---------------- */
+$$(".seg button").forEach(b=> b.addEventListener("click", ()=>{
+  state.domain = b.dataset.domain;
+  $$(".seg button").forEach(x=> x.setAttribute("aria-pressed", String(x===b)));
+  render();
+}));
+$$(".viewtog button").forEach(b=> b.addEventListener("click", ()=>{
+  state.view = b.dataset.view;
+  $$(".viewtog button").forEach(x=> x.setAttribute("aria-pressed", String(x===b)));
+  render();
+}));
+$$(".chip").forEach(b=> b.addEventListener("click", ()=>{
+  const c = b.dataset.filter;
+  if(state.cats.has(c) && state.cats.size>1) state.cats.delete(c); else state.cats.add(c);
+  b.setAttribute("aria-pressed", String(state.cats.has(c)));
+  applyFilters();
+}));
+document.addEventListener("click", e=>{
+  const t = e.target.closest(".blip, .card");
+  if(t) openModal(t.dataset.id);
+});
+$("#overlay").addEventListener("click", e=>{ if(e.target.id==="overlay") closeModal(); });
+document.addEventListener("click", e=>{ if(e.target.id==="closeBtn") closeModal(); });
+document.addEventListener("keydown", e=>{ if(e.key==="Escape" && $("#overlay").classList.contains("on")) closeModal(); });
+window.addEventListener("resize", ()=>requestAnimationFrame(deoverlap));
+
+render();
+</script>
+</body>
+</html>
