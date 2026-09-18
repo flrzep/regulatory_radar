@@ -1,7 +1,7 @@
-# Regulatory Radar — demo
+# Regulatory Radar – demo
 
 Single-file interactive radar of the standards and regulation landscape, in P3 CI (dark).
-Open `index.html` in a browser — no build, no dependencies.
+Open `index.html` in a browser – no build, no dependencies.
 
 ## What it shows
 
@@ -33,7 +33,7 @@ One entry per item:
 
 ```js
 {
-  id:"iso26262", name:"ISO 26262", full:"ISO 26262:2018 — …",
+  id:"iso26262", name:"ISO 26262", full:"ISO 26262:2018 – …",
   axis:"safety",        // "cyber" (left half) | "safety" (right half)
   ring:"published",     // "draft" | "final" | "published"
   cat:"industrial",     // "consumer" | "industrial"
@@ -44,13 +44,13 @@ One entry per item:
 ```
 
 `a` is the angle (0° = right along the baseline, 180° = left). `rr` (0–1) only
-picks the position *within* the band that `ring` selects — the radius is derived
+picks the position *within* the band that `ring` selects – the radius is derived
 from `ring`, so a blip can never be plotted in a band that contradicts its
 status. Labels are de-overlapped and clamped to the radar box automatically, so
 angles only need to be roughly spread.
 
-The dome is a true semicircle drawn in SVG — centred on the baseline, upper half
-only — and `geom()` is the single source of truth for its centre and radius, so
+The dome is a true semicircle drawn in SVG – centred on the baseline, upper half
+only – and `geom()` is the single source of truth for its centre and radius, so
 the grid and the blips cannot disagree.
 
 CI colours are CSS custom properties on `:root` (`--p3-blue`, `--bg`, …).

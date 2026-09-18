@@ -333,7 +333,7 @@ footer{border-top:1px solid var(--line-soft);margin-top:40px;padding:22px 0 40px
 
 <footer>
   <div class="wrap foot">
-    <div>P3 &mdash; Technology Consultancy &middot; Regulatory Radar (demo)</div>
+    <div>P3 &ndash; Technology Consultancy &middot; Regulatory Radar (demo)</div>
     <div>Illustrative content &middot; not legal advice</div>
   </div>
 </footer>
@@ -354,7 +354,7 @@ const DATA = {
       { id:"consumer",   label:"Consumer / Service", color:"#FF6A2B" },
       { id:"industrial", label:"Industrial",         color:"#8B8BFF" }
     ],
-    lede: "Where the safety and cybersecurity rulebook for industrial, mobile and service robotics stands today — from published ISO/IEC baselines at the core to draft instruments still forming at the edge. Select any item for scope, status and what it means for product teams.",
+    lede: "Where the safety and cybersecurity rulebook for industrial, mobile and service robotics stands today – from published ISO/IEC baselines at the core to draft instruments still forming at the edge. Select any item for scope, status and what it means for product teams.",
     items: [
       /* ---------- CYBERSECURITY (left) ---------- */
       {
@@ -362,7 +362,7 @@ const DATA = {
         axis:"cyber", ring:"draft", cat:"industrial", region:"EU", a:172, rr:0.35,
         tagline:"Horizontal EU cybersecurity law that pulls every connected robot into CE marking scope.",
         meta:{Status:"In force, obligations phasing in", Applies:"Main obligations from 11 Dec 2027; vulnerability reporting from 11 Sep 2026", Body:"European Commission / ENISA", Scope:"All products with digital elements placed on the EU market"},
-        what:"The CRA is the first horizontal cybersecurity regulation covering any product with digital elements — hardware, firmware and standalone software. For robotics it sits on top of the Machinery Regulation: a robot arm, an AMR or a teach pendant app all fall in scope, and non-compliance blocks the CE mark.",
+        what:"The CRA is the first horizontal cybersecurity regulation covering any product with digital elements – hardware, firmware and standalone software. For robotics it sits on top of the Machinery Regulation: a robot arm, an AMR or a teach pendant app all fall in scope, and non-compliance blocks the CE mark.",
         req:[
           "Security-by-design and by-default: no known exploitable vulnerabilities at release, secure default configuration, attack-surface minimisation.",
           "Coordinated vulnerability disclosure policy and an SBOM maintained in a machine-readable format.",
@@ -378,9 +378,9 @@ const DATA = {
         axis:"cyber", ring:"final", cat:"consumer", region:"EU", a:161, rr:0.60,
         tagline:"Baseline cybersecurity for any radio-connected robot sold in the EU.",
         meta:{Status:"Applicable", Applies:"Since 1 August 2025", Body:"European Commission · CEN/CENELEC · ETSI", Scope:"Radio equipment: Wi-Fi / BLE / cellular-connected robots"},
-        what:"The RED delegated act activates Articles 3(3)(d), (e) and (f) of the Radio Equipment Directive — network protection, personal data protection and protection from fraud. The EN 18031 series provides the harmonised presumption of conformity; ETSI EN 303 645 remains the widely used consumer-IoT baseline behind it.",
+        what:"The RED delegated act activates Articles 3(3)(d), (e) and (f) of the Radio Equipment Directive – network protection, personal data protection and protection from fraud. The EN 18031 series provides the harmonised presumption of conformity; ETSI EN 303 645 remains the widely used consumer-IoT baseline behind it.",
         req:[
-          "No universal default passwords — unique per-device credentials or forced change at commissioning.",
+          "No universal default passwords – unique per-device credentials or forced change at commissioning.",
           "Secure, authenticated software update mechanism with signed images.",
           "Protection of personal and traffic data; minimise exposed network interfaces.",
           "Network resilience: the device must not harm the network or other devices under fault or attack.",
@@ -390,42 +390,42 @@ const DATA = {
         links:[{l:"Delegated Reg. 2022/30",u:"https://eur-lex.europa.eu/eli/reg_del/2022/30/oj"},{l:"ETSI EN 303 645",u:"https://www.etsi.org/standards"}]
       },
       {
-        id:"iec62443", name:"IEC 62443 Certification", full:"IEC 62443 series — Security for industrial automation and control systems",
+        id:"iec62443", name:"IEC 62443 Certification", full:"IEC 62443 series – Security for industrial automation and control systems",
         axis:"cyber", ring:"published", cat:"industrial", region:"INT", a:146, rr:0.96,
         tagline:"The de-facto certification scheme for industrial robot controllers and cells.",
-        meta:{Status:"Published (multi-part, actively maintained)", Applies:"Now — increasingly contractual", Body:"IEC TC65 / ISA99", Scope:"IACS products, systems and the organisations that build them"},
+        meta:{Status:"Published (multi-part, actively maintained)", Applies:"Now – increasingly contractual", Body:"IEC TC65 / ISA99", Scope:"IACS products, systems and the organisations that build them"},
         what:"IEC 62443 is a family rather than a single standard. For robotics the load-bearing parts are 62443-4-1 (secure product development lifecycle), 62443-4-2 (technical security requirements for components, with Security Levels SL 1–4) and 62443-3-3 (system-level requirements for the integrated cell).",
         req:[
-          "62443-4-1: defined secure development lifecycle — threat modelling, secure coding, verification, patch management.",
+          "62443-4-1: defined secure development lifecycle – threat modelling, secure coding, verification, patch management.",
           "62443-4-2: component requirements mapped to seven Foundational Requirements (IAC, UC, SI, DC, RDF, TRE, RA).",
-          "Target Security Level agreed per zone and conduit — SL 2 is the common contractual floor, SL 3 for critical infrastructure.",
+          "Target Security Level agreed per zone and conduit – SL 2 is the common contractual floor, SL 3 for critical infrastructure.",
           "Certification through IECEE CB scheme or equivalent (TÜV, exida, UL)."
         ],
         take:"Automotive and pharma customers now put 62443-4-2 SL 2 in RFQs as a gate. The certification itself is achievable in ~9–12 months; the bottleneck is almost always 4-1 process evidence, not product features.",
         links:[{l:"IEC 62443 overview",u:"https://www.iec.ch/blog/understanding-iec-62443"}]
       },
       {
-        id:"ce", name:"CE Marking", full:"Machinery Regulation (EU) 2023/1230 — CE conformity for machinery and robots",
+        id:"ce", name:"CE Marking", full:"Machinery Regulation (EU) 2023/1230 – CE conformity for machinery and robots",
         axis:"cyber", ring:"published", cat:"industrial", region:"EU", a:118, rr:0.72,
-        tagline:"The EU market-access gate — and now explicitly a cybersecurity gate too.",
+        tagline:"The EU market-access gate – and now explicitly a cybersecurity gate too.",
         meta:{Status:"Published, replacing Directive 2006/42/EC", Applies:"From 20 January 2027", Body:"European Commission", Scope:"Machinery, safety components, partly completed machinery"},
         what:"The new Machinery Regulation modernises CE marking for robotics. Two changes matter most: essential health and safety requirements now explicitly cover protection against corruption of safety-related software and data, and machinery with self-evolving (AI) behaviour that performs safety functions moves into the high-risk Annex I list requiring notified-body involvement.",
         req:[
           "Risk assessment must cover malicious third-party interference with safety functions.",
           "Safety-related control system logs and traceability of software modifications.",
-          "Digital instructions for use are permitted — with a paper option on request.",
+          "Digital instructions for use are permitted – with a paper option on request.",
           "Annex I Part A machinery (incl. certain AI-driven safety functions) requires third-party conformity assessment.",
           "Substantial modification by an integrator can create a new manufacturer obligation."
         ],
-        take:"January 2027 lands at the same time as CRA full application. Teams that treat these as one combined technical file — one risk assessment, one lifecycle, one evidence set — save roughly a third of the effort versus running them as separate projects.",
+        take:"January 2027 lands at the same time as CRA full application. Teams that treat these as one combined technical file – one risk assessment, one lifecycle, one evidence set – save roughly a third of the effort versus running them as separate projects.",
         links:[{l:"EUR-Lex 2023/1230",u:"https://eur-lex.europa.eu/eli/reg/2023/1230/oj"}]
       },
       {
-        id:"iso13849", name:"ISO 13849 / IEC·EN 61508", full:"ISO 13849-1:2023 · IEC 61508 · IEC 62061 — functional safety of control systems",
+        id:"iso13849", name:"ISO 13849 / IEC·EN 61508", full:"ISO 13849-1:2023 · IEC 61508 · IEC 62061 – functional safety of control systems",
         axis:"cyber", ring:"published", cat:"consumer", region:"INT", a:97, rr:0.28,
         tagline:"The functional-safety bedrock every robot safety function is argued against.",
         meta:{Status:"Published · ISO 13849-1 revised 2023", Applies:"Now", Body:"ISO TC199 · IEC TC65", Scope:"Safety-related parts of control systems (SRP/CS)"},
-        what:"ISO 13849-1 defines Performance Levels (PL a–e) from architecture category, MTTFD, diagnostic coverage and common-cause failure. IEC 61508 provides the underlying SIL framework for programmable electronics, with IEC 62061 as the machinery-sector view. Nearly every robot safety function — safe stop, safely limited speed, safe zone monitoring — is validated against one of these.",
+        what:"ISO 13849-1 defines Performance Levels (PL a–e) from architecture category, MTTFD, diagnostic coverage and common-cause failure. IEC 61508 provides the underlying SIL framework for programmable electronics, with IEC 62061 as the machinery-sector view. Nearly every robot safety function – safe stop, safely limited speed, safe zone monitoring – is validated against one of these.",
         req:[
           "Determine required Performance Level (PLr) per safety function via risk graph.",
           "Architecture categories B, 1–4 with quantified MTTFD and DCₐᵥᵍ.",
@@ -438,7 +438,7 @@ const DATA = {
       },
       /* ---------- FUNCTIONAL SAFETY (right) ---------- */
       {
-        id:"astm", name:"ASTM F45.06", full:"ASTM F45 — Driverless Automatic Guided Industrial Vehicles (A-UGV), Subcommittee F45.06 on Safety",
+        id:"astm", name:"ASTM F45.06", full:"ASTM F45 – Driverless Automatic Guided Industrial Vehicles (A-UGV), Subcommittee F45.06 on Safety",
         axis:"safety", ring:"final", cat:"industrial", region:"US", a:80, rr:0.75,
         tagline:"The US performance-test framework for autonomous industrial vehicles.",
         meta:{Status:"Active development · parts published", Applies:"Voluntary, increasingly cited in US procurement", Body:"ASTM International Committee F45", Scope:"A-UGVs: AGVs, AMRs and unmanned industrial vehicles"},
@@ -453,9 +453,9 @@ const DATA = {
         links:[{l:"ASTM Committee F45",u:"https://www.astm.org/committee-f45"}]
       },
       {
-        id:"iso10218", name:"ISO 10218:2025", full:"ISO 10218-1:2025 · ISO 10218-2:2025 — Robotics, safety requirements for industrial robots",
+        id:"iso10218", name:"ISO 10218:2025", full:"ISO 10218-1:2025 · ISO 10218-2:2025 – Robotics, safety requirements for industrial robots",
         axis:"safety", ring:"published", cat:"industrial", region:"INT", a:50, rr:0.96,
-        tagline:"The 2025 rewrite — collaborative operation folded into the core standard.",
+        tagline:"The 2025 rewrite – collaborative operation folded into the core standard.",
         meta:{Status:"Published February 2025", Applies:"Now · transition from the 2011 edition underway", Body:"ISO TC299 WG3", Scope:"Part 1: robots · Part 2: robot systems, cells and integration"},
         what:"The long-awaited revision replaces the 2011 edition and absorbs the collaborative-operation content previously carried in ISO/TS 15066. It introduces a robot classification scheme, restructures the requirements around safety functions with required Performance Levels, and substantially expands the integrator obligations in Part 2.",
         req:[
@@ -465,13 +465,13 @@ const DATA = {
           "Expanded requirements on validation of safety-rated soft axis and space limiting.",
           "Part 2 adds explicit requirements for end effectors, changeover and mobile-manipulator integration."
         ],
-        take:"The migration is not cosmetic. Cells certified to 10218:2011 keep their validity for now, but any new PL argument, and every collaborative application, should be built directly on the 2025 structure — re-mapping later costs more than starting there.",
+        take:"The migration is not cosmetic. Cells certified to 10218:2011 keep their validity for now, but any new PL argument, and every collaborative application, should be built directly on the 2025 structure – re-mapping later costs more than starting there.",
         links:[{l:"ISO 10218-1:2025",u:"https://www.iso.org/standard/73933.html"}]
       },
       {
-        id:"iso13482", name:"ISO 13482", full:"ISO 13482:2014 — Robots and robotic devices, safety requirements for personal care robots",
+        id:"iso13482", name:"ISO 13482", full:"ISO 13482:2014 – Robots and robotic devices, safety requirements for personal care robots",
         axis:"safety", ring:"published", cat:"consumer", region:"INT", a:28, rr:0.74,
-        tagline:"The service-robotics safety standard — published, ageing, under revision.",
+        tagline:"The service-robotics safety standard – published, ageing, under revision.",
         meta:{Status:"Published 2014 · revision in progress", Applies:"Now", Body:"ISO TC299 WG2", Scope:"Mobile servant, physical assistant and person-carrier robots"},
         what:"ISO 13482 was the first international safety standard for non-industrial robots operating in close proximity to people. It defines three personal-care robot types and covers hazards that industrial standards do not: instability, unintended motion in unstructured environments, and incorrect autonomous decisions.",
         req:[
@@ -485,10 +485,10 @@ const DATA = {
         links:[{l:"ISO 13482:2014",u:"https://www.iso.org/standard/53820.html"}]
       },
       {
-        id:"iso25785", name:"ISO/AWI 25785-1", full:"ISO/AWI 25785-1 — Industrial mobile robots, safety requirements, Part 1: robots and equipment",
+        id:"iso25785", name:"ISO/AWI 25785-1", full:"ISO/AWI 25785-1 – Industrial mobile robots, safety requirements, Part 1: robots and equipment",
         axis:"safety", ring:"draft", cat:"industrial", region:"US", a:15, rr:0.55,
         tagline:"The coming international standard purpose-built for AMRs.",
-        meta:{Status:"Approved Work Item — draft stage", Applies:"Not yet · expected end of decade", Body:"ISO TC299 · strong US (A3 / ASTM) input", Scope:"Industrial mobile robots, incl. mobile manipulators"},
+        meta:{Status:"Approved Work Item – draft stage", Applies:"Not yet · expected end of decade", Body:"ISO TC299 · strong US (A3 / ASTM) input", Scope:"Industrial mobile robots, incl. mobile manipulators"},
         what:"Today AMR safety is argued from a patchwork: ISO 3691-4 for driverless trucks, ISO 10218 for the manipulator, ISO 13849 for the control system. ISO 25785-1 is the attempt to replace that patchwork with a single coherent standard covering the mobile platform, its equipment and the mobile manipulator as one machine.",
         req:[
           "Unified treatment of the platform plus manipulator as a single safety-related system.",
@@ -496,11 +496,11 @@ const DATA = {
           "Fleet-level and traffic-management safety considerations.",
           "Expected alignment with ANSI/A3 R15.08 work already published in the US."
         ],
-        take:"This is the item to track rather than act on. Design decisions taken now — particularly around how platform and arm safety functions are decomposed — will be expensive to revisit if they do not survive the draft.",
+        take:"This is the item to track rather than act on. Design decisions taken now – particularly around how platform and arm safety functions are decomposed – will be expensive to revisit if they do not survive the draft.",
         links:[{l:"ISO/AWI 25785-1",u:"https://www.iso.org/standard/83615.html"}]
       },
       {
-        id:"r1506", name:"ANSI/A3 R15.06-2025", full:"ANSI/A3 R15.06-2025 — American National Standard for Industrial Robots and Robot Systems, Safety Requirements",
+        id:"r1506", name:"ANSI/A3 R15.06-2025", full:"ANSI/A3 R15.06-2025 – American National Standard for Industrial Robots and Robot Systems, Safety Requirements",
         axis:"safety", ring:"published", cat:"industrial", region:"US", a:7, rr:0.42,
         tagline:"The US national adoption of ISO 10218:2025.",
         meta:{Status:"Published 2025", Applies:"Now · referenced by OSHA in enforcement", Body:"A3 (Association for Advancing Automation)", Scope:"Industrial robots and robot systems in the United States"},
@@ -522,15 +522,15 @@ const DATA = {
     cats: [
       { id:"vehicle", label:"Standards & regulation", color:"#FFFFFF" }
     ],
-    lede: "The type-approval and engineering-standard landscape for automated and connected vehicles — mature UNECE regulations and ISO baselines at the core, with ADS-specific and AI-related instruments still forming at the edge. Select any item for scope, status and engineering impact.",
+    lede: "The type-approval and engineering-standard landscape for automated and connected vehicles – mature UNECE regulations and ISO baselines at the core, with ADS-specific and AI-related instruments still forming at the edge. Select any item for scope, status and engineering impact.",
     items: [
       /* ---------- CYBERSECURITY (left) ---------- */
       {
-        id:"aiact", name:"EU AI Act", full:"Regulation (EU) 2024/1689 — Artificial Intelligence Act",
+        id:"aiact", name:"EU AI Act", full:"Regulation (EU) 2024/1689 – Artificial Intelligence Act",
         axis:"cyber", ring:"draft", cat:"vehicle", region:"EU", a:171, rr:0.38,
         tagline:"Horizontal AI law whose interaction with vehicle type-approval is still being worked out.",
         meta:{Status:"In force, phased application", Applies:"GPAI obligations Aug 2025 · high-risk Annex I from Aug 2027", Body:"European Commission · AI Office", Scope:"AI systems placed on the EU market"},
-        what:"The AI Act classifies AI systems by risk. Safety components of products already covered by EU type-approval legislation fall under Annex I, which routes compliance through the existing sectoral framework rather than a parallel process — but with AI Act requirements layered on top of it.",
+        what:"The AI Act classifies AI systems by risk. Safety components of products already covered by EU type-approval legislation fall under Annex I, which routes compliance through the existing sectoral framework rather than a parallel process – but with AI Act requirements layered on top of it.",
         req:[
           "Risk management system maintained across the full AI lifecycle.",
           "Data governance: training, validation and test set quality, representativeness and bias examination.",
@@ -538,13 +538,13 @@ const DATA = {
           "Human oversight design and accuracy/robustness/cybersecurity targets.",
           "For vehicles: assessed through the type-approval route under Regulation (EU) 2019/2144 rather than standalone."
         ],
-        take:"The open question for AD teams is scope: which perception and planning components count as AI safety components. Until guidance settles, the pragmatic move is to make the data-governance and logging evidence AI-Act-shaped anyway — it is largely what SOTIF validation already produces.",
+        take:"The open question for AD teams is scope: which perception and planning components count as AI safety components. Until guidance settles, the pragmatic move is to make the data-governance and logging evidence AI-Act-shaped anyway – it is largely what SOTIF validation already produces.",
         links:[{l:"EUR-Lex 2024/1689",u:"https://eur-lex.europa.eu/eli/reg/2024/1689/oj"}]
       },
       {
-        id:"r155", name:"UN R155 · CSMS", full:"UN Regulation No. 155 — Cyber security and cyber security management system",
+        id:"r155", name:"UN R155 · CSMS", full:"UN Regulation No. 155 – Cyber security and cyber security management system",
         axis:"cyber", ring:"published", cat:"vehicle", region:"INT", a:152, rr:0.96,
-        tagline:"No CSMS certificate, no type approval — the hard gate for EU vehicle cybersecurity.",
+        tagline:"No CSMS certificate, no type approval – the hard gate for EU vehicle cybersecurity.",
         meta:{Status:"In force", Applies:"All new vehicles in the EU since July 2024", Body:"UNECE WP.29 / GRVA", Scope:"Vehicle types in UNECE 1958 Agreement contracting parties"},
         what:"R155 requires the manufacturer to hold a valid Cyber Security Management System certificate before a vehicle type can be approved, and to demonstrate that identified risks for that specific type are managed. It is process regulation and product regulation at once.",
         req:[
@@ -554,15 +554,15 @@ const DATA = {
           "Monitoring, detection and response capability for the vehicle fleet in the field.",
           "Management of suppliers' contributions to the cybersecurity case."
         ],
-        take:"The recurring audit finding is not the TARA — it is post-production monitoring. A CSMS that cannot show live fleet detection and a rehearsed response path will not survive re-certification.",
+        take:"The recurring audit finding is not the TARA – it is post-production monitoring. A CSMS that cannot show live fleet detection and a rehearsed response path will not survive re-certification.",
         links:[{l:"UN R155",u:"https://unece.org/transport/documents/2021/03/standards/un-regulation-no-155-cyber-security-and-cyber-security"}]
       },
       {
-        id:"r156", name:"UN R156 · SUMS", full:"UN Regulation No. 156 — Software update and software update management system",
+        id:"r156", name:"UN R156 · SUMS", full:"UN Regulation No. 156 – Software update and software update management system",
         axis:"cyber", ring:"published", cat:"vehicle", region:"INT", a:130, rr:0.74,
         tagline:"OTA updates are only legal if the update process itself is type-approved.",
         meta:{Status:"In force", Applies:"All new vehicles in the EU since July 2024", Body:"UNECE WP.29 / GRVA", Scope:"Vehicles capable of software updates, incl. OTA"},
-        what:"R156 requires a certified Software Update Management System and introduces RXSWIN — the software identification number tied to type-approval-relevant software. Any update that changes approval-relevant behaviour must be traced, assessed and, where needed, re-approved.",
+        what:"R156 requires a certified Software Update Management System and introduces RXSWIN – the software identification number tied to type-approval-relevant software. Any update that changes approval-relevant behaviour must be traced, assessed and, where needed, re-approved.",
         req:[
           "SUMS certificate covering update processes, configuration management and traceability.",
           "RXSWIN maintained and readable from the vehicle.",
@@ -574,7 +574,7 @@ const DATA = {
         links:[{l:"UN R156",u:"https://unece.org/transport/documents/2021/03/standards/un-regulation-no-156-software-update-and-software-update"}]
       },
       {
-        id:"iso21434", name:"ISO/SAE 21434", full:"ISO/SAE 21434:2021 — Road vehicles, cybersecurity engineering",
+        id:"iso21434", name:"ISO/SAE 21434", full:"ISO/SAE 21434:2021 – Road vehicles, cybersecurity engineering",
         axis:"cyber", ring:"published", cat:"vehicle", region:"INT", a:108, rr:0.50,
         tagline:"The engineering standard used to demonstrate R155 compliance.",
         meta:{Status:"Published 2021", Applies:"Now · de-facto contractual baseline", Body:"ISO TC22/SC32 · SAE", Scope:"E/E systems in road vehicles, concept through decommissioning"},
@@ -586,11 +586,11 @@ const DATA = {
           "Cybersecurity Interface Agreement (CIA) with each supplier.",
           "Post-development: incident response, vulnerability management, end of support."
         ],
-        take:"21434 is the evidence engine behind R155. Where programmes struggle is the supplier interface — a CIA signed late, or with vague activity split, turns into a gap the auditor finds at exactly the wrong moment.",
+        take:"21434 is the evidence engine behind R155. Where programmes struggle is the supplier interface – a CIA signed late, or with vague activity split, turns into a gap the auditor finds at exactly the wrong moment.",
         links:[{l:"ISO/SAE 21434:2021",u:"https://www.iso.org/standard/70918.html"}]
       },
       {
-        id:"iso24089", name:"ISO 24089", full:"ISO 24089:2023 — Road vehicles, software update engineering",
+        id:"iso24089", name:"ISO 24089", full:"ISO 24089:2023 – Road vehicles, software update engineering",
         axis:"cyber", ring:"published", cat:"vehicle", region:"INT", a:94, rr:0.20,
         tagline:"The engineering counterpart to UN R156.",
         meta:{Status:"Published 2023", Applies:"Now", Body:"ISO TC22/SC32", Scope:"Software update engineering at vehicle, ECU and infrastructure level"},
@@ -618,15 +618,15 @@ const DATA = {
           "Standing General Order crash reporting for ADS and Level 2 ADAS.",
           "State-level operating authority remains separate and varies significantly."
         ],
-        take:"The practical consequence for European OEMs is dual evidence: a UNECE-shaped approval dossier and a US-shaped safety case. They draw on the same validation data but are argued very differently — plan the data model for both from the start.",
+        take:"The practical consequence for European OEMs is dual evidence: a UNECE-shaped approval dossier and a US-shaped safety case. They draw on the same validation data but are argued very differently – plan the data model for both from the start.",
         links:[{l:"NHTSA automated vehicles",u:"https://www.nhtsa.gov/vehicle-safety/automated-vehicles-safety"}]
       },
       {
-        id:"ts5083", name:"ISO/TS 5083", full:"ISO/TS 5083 — Road vehicles, safety for automated driving systems, design, verification and validation",
+        id:"ts5083", name:"ISO/TS 5083", full:"ISO/TS 5083 – Road vehicles, safety for automated driving systems, design, verification and validation",
         axis:"safety", ring:"final", cat:"vehicle", region:"INT", a:62, rr:0.70,
         tagline:"The integrating document that ties 26262, SOTIF and cybersecurity into one safety case.",
         meta:{Status:"Technical Specification · recently published, maturing toward IS", Applies:"Voluntary, rapidly becoming the reference", Body:"ISO TC22/SC32/WG14", Scope:"SAE Level 3+ automated driving systems"},
-        what:"ISO/TS 5083 succeeds the earlier ISO/TR 4804 and provides an end-to-end framework for arguing that an automated driving system is acceptably safe — spanning functional safety, SOTIF, cybersecurity, the operational design domain and the validation strategy.",
+        what:"ISO/TS 5083 succeeds the earlier ISO/TR 4804 and provides an end-to-end framework for arguing that an automated driving system is acceptably safe – spanning functional safety, SOTIF, cybersecurity, the operational design domain and the validation strategy.",
         req:[
           "Explicit ODD definition and the safety argument bound to it.",
           "Integration of ISO 26262 (E/E faults) and ISO 21448 (performance limitations) into one case.",
@@ -634,11 +634,11 @@ const DATA = {
           "Treatment of machine-learning components within the safety lifecycle.",
           "Field monitoring and continuous safety assurance after deployment."
         ],
-        take:"This is the document most L3/L4 programmes will structure their safety case around. Starting the case late — after architecture is frozen — is what makes validation budgets explode.",
+        take:"This is the document most L3/L4 programmes will structure their safety case around. Starting the case late – after architecture is frozen – is what makes validation budgets explode.",
         links:[{l:"ISO/TS 5083",u:"https://www.iso.org/standard/81920.html"}]
       },
       {
-        id:"iso26262", name:"ISO 26262", full:"ISO 26262:2018 — Road vehicles, functional safety",
+        id:"iso26262", name:"ISO 26262", full:"ISO 26262:2018 – Road vehicles, functional safety",
         axis:"safety", ring:"published", cat:"vehicle", region:"INT", a:44, rr:0.96,
         tagline:"The functional-safety baseline every automotive E/E argument still rests on.",
         meta:{Status:"Published 2018 (2nd edition)", Applies:"Now · universal industry expectation", Body:"ISO TC22/SC32/WG8", Scope:"Safety-related E/E systems in series production road vehicles"},
@@ -650,13 +650,13 @@ const DATA = {
           "Software safety requirements, coding guidelines, unit and integration verification.",
           "Safety element out of context and confirmation measures (review, audit, assessment)."
         ],
-        take:"Well understood — but for automated driving its blind spot matters: 26262 assumes the intended function is safe and only faults are hazardous. Everything that is hazardous without a fault is ISO 21448's problem.",
+        take:"Well understood – but for automated driving its blind spot matters: 26262 assumes the intended function is safe and only faults are hazardous. Everything that is hazardous without a fault is ISO 21448's problem.",
         links:[{l:"ISO 26262-1:2018",u:"https://www.iso.org/standard/68383.html"}]
       },
       {
-        id:"sotif", name:"ISO 21448 · SOTIF", full:"ISO 21448:2022 — Road vehicles, safety of the intended functionality",
+        id:"sotif", name:"ISO 21448 · SOTIF", full:"ISO 21448:2022 – Road vehicles, safety of the intended functionality",
         axis:"safety", ring:"published", cat:"vehicle", region:"INT", a:28, rr:0.78,
-        tagline:"Safety when nothing is broken — the standard that covers perception limits.",
+        tagline:"Safety when nothing is broken – the standard that covers perception limits.",
         meta:{Status:"Published 2022", Applies:"Now · required for any credible ADS safety case", Body:"ISO TC22/SC32/WG8", Scope:"Functions relying on sensing and complex algorithms, incl. ADAS and ADS"},
         what:"SOTIF addresses hazards arising from functional insufficiencies and reasonably foreseeable misuse rather than from faults: a perception stack that misclassifies in low sun, a planner that behaves unexpectedly in a rare scenario. It structures the problem into known/unknown and safe/unsafe scenario areas and drives them down through analysis and testing.",
         req:[
@@ -666,11 +666,11 @@ const DATA = {
           "Verification of measures against misuse and degradation.",
           "Field data feedback loop after release."
         ],
-        take:"SOTIF is where the real validation cost of automated driving sits. The decisive early choice is the scenario catalogue and its provenance — teams that build it from real fleet data rather than from imagination converge far faster.",
+        take:"SOTIF is where the real validation cost of automated driving sits. The decisive early choice is the scenario catalogue and its provenance – teams that build it from real fleet data rather than from imagination converge far faster.",
         links:[{l:"ISO 21448:2022",u:"https://www.iso.org/standard/77490.html"}]
       },
       {
-        id:"r157", name:"UN R157 · ALKS", full:"UN Regulation No. 157 — Automated Lane Keeping Systems",
+        id:"r157", name:"UN R157 · ALKS", full:"UN Regulation No. 157 – Automated Lane Keeping Systems",
         axis:"safety", ring:"published", cat:"vehicle", region:"INT", a:14, rr:0.60,
         tagline:"The first binding international type-approval regulation for a Level 3 function.",
         meta:{Status:"In force · amended to 130 km/h", Applies:"Now, in UNECE contracting parties", Body:"UNECE WP.29 / GRVA", Scope:"Level 3 automated lane keeping on divided highways"},
@@ -682,15 +682,15 @@ const DATA = {
           "DSSAD event recording with defined data elements.",
           "Assessment combining audit of the safety management system, scenario testing and real-world driving."
         ],
-        take:"R157's assessment model — audit plus scenario catalogue plus track and road testing — is the template later ADS regulation is following. Organisations that built the R157 evidence machinery are markedly faster on everything after it.",
+        take:"R157's assessment model – audit plus scenario catalogue plus track and road testing – is the template later ADS regulation is following. Organisations that built the R157 evidence machinery are markedly faster on everything after it.",
         links:[{l:"UN R157",u:"https://unece.org/transport/documents/2021/03/standards/un-regulation-no-157-automated-lane-keeping-systems-alks"}]
       },
       {
-        id:"eu1426", name:"EU 2022/1426 · ADS", full:"Commission Implementing Regulation (EU) 2022/1426 — type-approval of automated driving systems in fully automated vehicles",
+        id:"eu1426", name:"EU 2022/1426 · ADS", full:"Commission Implementing Regulation (EU) 2022/1426 – type-approval of automated driving systems in fully automated vehicles",
         axis:"safety", ring:"published", cat:"vehicle", region:"EU", a:4, rr:0.34,
         tagline:"The EU route to approving driverless vehicles in small series.",
         meta:{Status:"In force since 2022", Applies:"Now", Body:"European Commission", Scope:"ADS in fully automated vehicles (EU small-series type approval)"},
-        what:"Adopted under the General Safety Regulation (EU) 2019/2144, this implementing act sets uniform procedures for approving fully automated vehicles in the EU — including ones without a driver. It covers the safety requirements, the assessment methodology and in-service reporting.",
+        what:"Adopted under the General Safety Regulation (EU) 2019/2144, this implementing act sets uniform procedures for approving fully automated vehicles in the EU – including ones without a driver. It covers the safety requirements, the assessment methodology and in-service reporting.",
         req:[
           "ADS safety requirements covering ODD, dynamic driving task and minimum risk condition.",
           "Multi-pillar assessment: scenario-based audit, track testing, real-world testing.",
@@ -698,7 +698,7 @@ const DATA = {
           "In-service monitoring and reporting obligations to the approval authority.",
           "Currently structured around EU small-series volumes, with broader frameworks developing."
         ],
-        take:"This is the concrete European path to a driverless product today. Its multi-pillar assessment aligns closely with ISO/TS 5083 — one safety case, argued once, can serve both if it is structured that way from the beginning.",
+        take:"This is the concrete European path to a driverless product today. Its multi-pillar assessment aligns closely with ISO/TS 5083 – one safety case, argued once, can serve both if it is structured that way from the beginning.",
         links:[{l:"EUR-Lex 2022/1426",u:"https://eur-lex.europa.eu/eli/reg_impl/2022/1426/oj"}]
       }
     ]
@@ -792,7 +792,7 @@ function renderRadar(){
     const inner = side==="left" ? lbl+dot+flg : flg+dot+lbl;
     return '<button class="blip '+side+'" data-id="'+it.id+'" data-cat="'+it.cat+'" '+
            'style="--dotc:'+catOf(it.cat).color+'" '+
-           'title="'+it.name+' — '+RING_LABEL[it.ring]+'">'+inner+'</button>';
+           'title="'+it.name+' – '+RING_LABEL[it.ring]+'">'+inner+'</button>';
   }).join("");
 }
 
