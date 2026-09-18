@@ -98,6 +98,7 @@ h1 em{font-style:normal;color:var(--p3-blue-bright)}
 .seg button:hover{color:#fff}
 .seg button[aria-pressed="true"]{background:var(--p3-blue);color:#fff;box-shadow:0 6px 22px rgba(35,35,255,.45)}
 .filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-left:auto}
+.chipset{display:flex;flex-wrap:wrap;gap:8px}
 .chip{
   display:inline-flex;align-items:center;gap:8px;cursor:pointer;user-select:none;
   font-size:11.5px;font-weight:600;letter-spacing:.6px;color:var(--txt-dim);
@@ -124,33 +125,23 @@ h1 em{font-style:normal;color:var(--p3-blue-bright)}
   content:"";position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(700px 340px at 50% 118%, rgba(35,35,255,.22), transparent 70%);
 }
-.radar{position:relative;width:100%;aspect-ratio:2.15/1;min-height:340px}
-.rings{position:absolute;inset:0;overflow:hidden}
-.ring{
-  position:absolute;left:50%;bottom:0;transform:translateX(-50%);
-  aspect-ratio:1;border-radius:50%;
-}
-.ring.r3{width:80%;background:var(--ring-3);border:1.5px solid rgba(90,90,255,.85)}
-.ring.r2{width:54.4%;background:var(--ring-2);border:1.5px solid rgba(120,120,255,.7)}
-.ring.r1{width:33.6%;background:var(--ring-1);border:1.5px solid rgba(110,110,255,.60)}
-.axis-v{position:absolute;left:50%;bottom:0;width:1px;height:94%;background:rgba(255,255,255,.22)}
-.axis-h{position:absolute;left:10%;right:10%;bottom:0;height:1px;background:rgba(255,255,255,.14)}
-.half-label{
-  position:absolute;font-size:clamp(13px,1.45vw,20px);font-weight:700;letter-spacing:.5px;
-  color:rgba(255,255,255,.62);white-space:nowrap;pointer-events:none;
-}
-.half-label.left{left:17%;top:20%;transform:rotate(-38deg)}
-.half-label.right{right:17%;top:20%;transform:rotate(38deg)}
-
+.radar{position:relative;width:100%;aspect-ratio:2.12/1;min-height:300px}
+.grid{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.band{stroke-linejoin:round}
+.band.b3{fill:rgba(70,70,255,.07);stroke:rgba(95,95,255,.90);stroke-width:2}
+.band.b2{fill:rgba(70,70,255,.10);stroke:rgba(125,125,255,.55);stroke-width:1.5}
+.band.b1{fill:rgba(70,70,255,.13);stroke:rgba(145,145,255,.50);stroke-width:1.5}
+.axv{stroke:rgba(255,255,255,.22);stroke-width:1}
+.axh{stroke:rgba(255,255,255,.16);stroke-width:1}
+.halftxt{fill:rgba(255,255,255,.60);font-weight:700;letter-spacing:.07em;font-family:var(--font)}
 .blips{position:absolute;inset:0}
 .blip{
-  position:absolute;left:var(--x);top:calc(var(--y) + var(--dy,0px));
-  display:flex;align-items:center;gap:6px;
+  position:absolute;width:max-content;display:flex;align-items:center;gap:6px;
   background:none;border:0;padding:0;cursor:pointer;font-family:var(--font);
   transition:filter .18s, opacity .2s;
 }
-.blip.left{transform:translate(calc(-100% + 44px),-50%)}
-.blip.right{transform:translate(-44px,-50%)}
+.blip.left{transform:translate(calc(-100% + 44px), calc(-50% + var(--dy,0px)))}
+.blip.right{transform:translate(-44px, calc(-50% + var(--dy,0px)))}
 .blip .lbl{
   background:var(--surface-2);color:#fff;border:1px solid rgba(255,255,255,.18);
   border-radius:8px;padding:7px 11px;font-size:11.5px;font-weight:600;line-height:1.25;
@@ -163,8 +154,7 @@ h1 em{font-style:normal;color:var(--p3-blue-bright)}
   box-shadow:0 0 0 3px rgba(4,4,26,.9), 0 0 14px 1px currentColor;
   background:currentColor;transition:.18s;
 }
-.blip[data-cat="consumer"] .dot{color:var(--cat-consumer)}
-.blip[data-cat="industrial"] .dot{color:var(--cat-industrial)}
+.blip .dot{color:var(--dotc)}
 .blip:hover .lbl{background:var(--p3-blue);border-color:var(--p3-blue-bright);transform:translateY(-1px)}
 .blip:hover .dot{transform:scale(1.18)}
 .blip:focus-visible{outline:2px solid #fff;outline-offset:4px;border-radius:10px}
@@ -271,16 +261,14 @@ footer{border-top:1px solid var(--line-soft);margin-top:40px;padding:22px 0 40px
 .foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11px;color:var(--txt-mute);letter-spacing:.4px}
 
 @media (max-width:860px){
-  .radar{aspect-ratio:1.35/1}
+  .radar{aspect-ratio:1.7/1}
   .blip .lbl{font-size:10px;max-width:120px;padding:5px 8px}
   .flag{width:22px;height:15px;flex:0 0 22px;font-size:7px}
   .blip .dot{width:12px;height:12px;flex:0 0 12px}
-  .blip.left{transform:translate(calc(-100% + 34px),-50%)}
-  .blip.right{transform:translate(-34px,-50%)}
+  .blip.left{transform:translate(calc(-100% + 34px), calc(-50% + var(--dy,0px)))}
+  .blip.right{transform:translate(-34px, calc(-50% + var(--dy,0px)))}
   .filters{margin-left:0}
   .kv{grid-template-columns:1fr}
-  .half-label.left{left:6%;top:14%}
-  .half-label.right{right:6%;top:14%}
 }
 </style>
 </head>
@@ -311,8 +299,7 @@ footer{border-top:1px solid var(--line-soft);margin-top:40px;padding:22px 0 40px
       <button data-domain="ad" aria-pressed="false">Autonomous Driving</button>
     </div>
     <div class="filters">
-      <button class="chip" data-filter="consumer" aria-pressed="true"><span class="swatch" style="background:var(--cat-consumer)"></span>Consumer / Service</button>
-      <button class="chip" data-filter="industrial" aria-pressed="true"><span class="swatch" style="background:var(--cat-industrial)"></span>Industrial</button>
+      <div class="chipset" id="filterChips"></div>
       <div class="viewtog" role="group" aria-label="View">
         <button data-view="radar" aria-pressed="true">Radar</button>
         <button data-view="list" aria-pressed="false">List</button>
@@ -323,15 +310,7 @@ footer{border-top:1px solid var(--line-soft);margin-top:40px;padding:22px 0 40px
   <div class="panel">
     <div class="radarview" id="radarView">
       <div class="radar" id="radar">
-        <div class="rings">
-          <div class="ring r3"></div>
-          <div class="ring r2"></div>
-          <div class="ring r1"></div>
-          <div class="axis-v"></div>
-          <div class="axis-h"></div>
-        </div>
-        <div class="half-label left">Cybersecurity</div>
-        <div class="half-label right">Functional Safety</div>
+        <svg class="grid" id="grid" aria-hidden="true"></svg>
         <div class="blips" id="blips"></div>
       </div>
       <div class="mat-axis">
@@ -341,11 +320,7 @@ footer{border-top:1px solid var(--line-soft);margin-top:40px;padding:22px 0 40px
           <span class="mat-step on">Published</span>
           <span class="mat-arrow"></span>
         </div>
-        <div class="legend">
-          <div class="li"><span class="sw" style="background:var(--cat-consumer)"></span>Consumer / Service</div>
-          <div class="li"><span class="sw" style="background:var(--cat-industrial)"></span>Industrial</div>
-          <div class="li"><span class="sw" style="background:var(--p3-blue-deep);border:1px solid var(--line)"></span>International</div>
-        </div>
+        <div class="legend" id="legend"></div>
       </div>
     </div>
     <div class="listview" id="listView"></div>
@@ -375,12 +350,16 @@ footer{border-top:1px solid var(--line-soft);margin-top:40px;padding:22px 0 40px
 const DATA = {
   robotics: {
     label: "Robotics",
+    cats: [
+      { id:"consumer",   label:"Consumer / Service", color:"#FF6A2B" },
+      { id:"industrial", label:"Industrial",         color:"#8B8BFF" }
+    ],
     lede: "Where the safety and cybersecurity rulebook for industrial, mobile and service robotics stands today — from published ISO/IEC baselines at the core to draft instruments still forming at the edge. Select any item for scope, status and what it means for product teams.",
     items: [
       /* ---------- CYBERSECURITY (left) ---------- */
       {
         id:"cra", name:"Cyber Resilience Act", full:"Regulation (EU) 2024/2847 on horizontal cybersecurity requirements for products with digital elements",
-        axis:"cyber", ring:"draft", cat:"industrial", region:"EU", a:176, rr:0.45,
+        axis:"cyber", ring:"draft", cat:"industrial", region:"EU", a:172, rr:0.35,
         tagline:"Horizontal EU cybersecurity law that pulls every connected robot into CE marking scope.",
         meta:{Status:"In force, obligations phasing in", Applies:"Main obligations from 11 Dec 2027; vulnerability reporting from 11 Sep 2026", Body:"European Commission / ENISA", Scope:"All products with digital elements placed on the EU market"},
         what:"The CRA is the first horizontal cybersecurity regulation covering any product with digital elements — hardware, firmware and standalone software. For robotics it sits on top of the Machinery Regulation: a robot arm, an AMR or a teach pendant app all fall in scope, and non-compliance blocks the CE mark.",
@@ -507,7 +486,7 @@ const DATA = {
       },
       {
         id:"iso25785", name:"ISO/AWI 25785-1", full:"ISO/AWI 25785-1 — Industrial mobile robots, safety requirements, Part 1: robots and equipment",
-        axis:"safety", ring:"draft", cat:"industrial", region:"US", a:14, rr:0.72,
+        axis:"safety", ring:"draft", cat:"industrial", region:"US", a:15, rr:0.55,
         tagline:"The coming international standard purpose-built for AMRs.",
         meta:{Status:"Approved Work Item — draft stage", Applies:"Not yet · expected end of decade", Body:"ISO TC299 · strong US (A3 / ASTM) input", Scope:"Industrial mobile robots, incl. mobile manipulators"},
         what:"Today AMR safety is argued from a patchwork: ISO 3691-4 for driverless trucks, ISO 10218 for the manipulator, ISO 13849 for the control system. ISO 25785-1 is the attempt to replace that patchwork with a single coherent standard covering the mobile platform, its equipment and the mobile manipulator as one machine.",
@@ -540,12 +519,15 @@ const DATA = {
 
   ad: {
     label: "Autonomous Driving",
+    cats: [
+      { id:"vehicle", label:"Standards & regulation", color:"#FFFFFF" }
+    ],
     lede: "The type-approval and engineering-standard landscape for automated and connected vehicles — mature UNECE regulations and ISO baselines at the core, with ADS-specific and AI-related instruments still forming at the edge. Select any item for scope, status and engineering impact.",
     items: [
       /* ---------- CYBERSECURITY (left) ---------- */
       {
         id:"aiact", name:"EU AI Act", full:"Regulation (EU) 2024/1689 — Artificial Intelligence Act",
-        axis:"cyber", ring:"draft", cat:"consumer", region:"EU", a:174, rr:0.50,
+        axis:"cyber", ring:"draft", cat:"vehicle", region:"EU", a:171, rr:0.38,
         tagline:"Horizontal AI law whose interaction with vehicle type-approval is still being worked out.",
         meta:{Status:"In force, phased application", Applies:"GPAI obligations Aug 2025 · high-risk Annex I from Aug 2027", Body:"European Commission · AI Office", Scope:"AI systems placed on the EU market"},
         what:"The AI Act classifies AI systems by risk. Safety components of products already covered by EU type-approval legislation fall under Annex I, which routes compliance through the existing sectoral framework rather than a parallel process — but with AI Act requirements layered on top of it.",
@@ -561,7 +543,7 @@ const DATA = {
       },
       {
         id:"r155", name:"UN R155 · CSMS", full:"UN Regulation No. 155 — Cyber security and cyber security management system",
-        axis:"cyber", ring:"published", cat:"industrial", region:"INT", a:152, rr:0.96,
+        axis:"cyber", ring:"published", cat:"vehicle", region:"INT", a:152, rr:0.96,
         tagline:"No CSMS certificate, no type approval — the hard gate for EU vehicle cybersecurity.",
         meta:{Status:"In force", Applies:"All new vehicles in the EU since July 2024", Body:"UNECE WP.29 / GRVA", Scope:"Vehicle types in UNECE 1958 Agreement contracting parties"},
         what:"R155 requires the manufacturer to hold a valid Cyber Security Management System certificate before a vehicle type can be approved, and to demonstrate that identified risks for that specific type are managed. It is process regulation and product regulation at once.",
@@ -577,7 +559,7 @@ const DATA = {
       },
       {
         id:"r156", name:"UN R156 · SUMS", full:"UN Regulation No. 156 — Software update and software update management system",
-        axis:"cyber", ring:"published", cat:"industrial", region:"INT", a:130, rr:0.74,
+        axis:"cyber", ring:"published", cat:"vehicle", region:"INT", a:130, rr:0.74,
         tagline:"OTA updates are only legal if the update process itself is type-approved.",
         meta:{Status:"In force", Applies:"All new vehicles in the EU since July 2024", Body:"UNECE WP.29 / GRVA", Scope:"Vehicles capable of software updates, incl. OTA"},
         what:"R156 requires a certified Software Update Management System and introduces RXSWIN — the software identification number tied to type-approval-relevant software. Any update that changes approval-relevant behaviour must be traced, assessed and, where needed, re-approved.",
@@ -593,7 +575,7 @@ const DATA = {
       },
       {
         id:"iso21434", name:"ISO/SAE 21434", full:"ISO/SAE 21434:2021 — Road vehicles, cybersecurity engineering",
-        axis:"cyber", ring:"published", cat:"industrial", region:"INT", a:108, rr:0.50,
+        axis:"cyber", ring:"published", cat:"vehicle", region:"INT", a:108, rr:0.50,
         tagline:"The engineering standard used to demonstrate R155 compliance.",
         meta:{Status:"Published 2021", Applies:"Now · de-facto contractual baseline", Body:"ISO TC22/SC32 · SAE", Scope:"E/E systems in road vehicles, concept through decommissioning"},
         what:"ISO/SAE 21434 defines cybersecurity engineering across the vehicle lifecycle: organisational governance, project-dependent activities, TARA methodology, and distributed responsibilities between OEM and suppliers through the Cybersecurity Interface Agreement.",
@@ -609,7 +591,7 @@ const DATA = {
       },
       {
         id:"iso24089", name:"ISO 24089", full:"ISO 24089:2023 — Road vehicles, software update engineering",
-        axis:"cyber", ring:"published", cat:"industrial", region:"INT", a:94, rr:0.20,
+        axis:"cyber", ring:"published", cat:"vehicle", region:"INT", a:94, rr:0.20,
         tagline:"The engineering counterpart to UN R156.",
         meta:{Status:"Published 2023", Applies:"Now", Body:"ISO TC22/SC32", Scope:"Software update engineering at vehicle, ECU and infrastructure level"},
         what:"ISO 24089 gives the technical practices behind a SUMS: how update campaigns are engineered, how the update infrastructure itself is treated as a safety- and security-relevant system, and how vehicle-level update integrity is preserved.",
@@ -626,7 +608,7 @@ const DATA = {
       /* ---------- FUNCTIONAL SAFETY (right) ---------- */
       {
         id:"avstep", name:"NHTSA AV Framework", full:"NHTSA AV Exemption Program · AV STEP proposed rule · FMVSS adaptation",
-        axis:"safety", ring:"draft", cat:"consumer", region:"US", a:82, rr:0.50,
+        axis:"safety", ring:"draft", cat:"vehicle", region:"US", a:82, rr:0.50,
         tagline:"The US federal route for vehicles without conventional driving controls.",
         meta:{Status:"Proposed / in rulemaking", Applies:"Not final", Body:"NHTSA · US DOT", Scope:"ADS-equipped vehicles operating on US public roads"},
         what:"The US has no type approval; manufacturers self-certify to FMVSS. Because several FMVSS assume a human driver and conventional controls, NHTSA has proposed a national review and exemption pathway (AV STEP) for ADS-equipped vehicles, alongside amendments removing driver-centric assumptions from existing standards.",
@@ -641,7 +623,7 @@ const DATA = {
       },
       {
         id:"ts5083", name:"ISO/TS 5083", full:"ISO/TS 5083 — Road vehicles, safety for automated driving systems, design, verification and validation",
-        axis:"safety", ring:"final", cat:"industrial", region:"INT", a:62, rr:0.70,
+        axis:"safety", ring:"final", cat:"vehicle", region:"INT", a:62, rr:0.70,
         tagline:"The integrating document that ties 26262, SOTIF and cybersecurity into one safety case.",
         meta:{Status:"Technical Specification · recently published, maturing toward IS", Applies:"Voluntary, rapidly becoming the reference", Body:"ISO TC22/SC32/WG14", Scope:"SAE Level 3+ automated driving systems"},
         what:"ISO/TS 5083 succeeds the earlier ISO/TR 4804 and provides an end-to-end framework for arguing that an automated driving system is acceptably safe — spanning functional safety, SOTIF, cybersecurity, the operational design domain and the validation strategy.",
@@ -657,7 +639,7 @@ const DATA = {
       },
       {
         id:"iso26262", name:"ISO 26262", full:"ISO 26262:2018 — Road vehicles, functional safety",
-        axis:"safety", ring:"published", cat:"industrial", region:"INT", a:44, rr:0.96,
+        axis:"safety", ring:"published", cat:"vehicle", region:"INT", a:44, rr:0.96,
         tagline:"The functional-safety baseline every automotive E/E argument still rests on.",
         meta:{Status:"Published 2018 (2nd edition)", Applies:"Now · universal industry expectation", Body:"ISO TC22/SC32/WG8", Scope:"Safety-related E/E systems in series production road vehicles"},
         what:"ISO 26262 addresses hazards caused by malfunctioning behaviour of electrical and electronic systems. It defines ASIL A–D from severity, exposure and controllability, then scales process rigour, architectural metrics and verification depth to that classification.",
@@ -673,7 +655,7 @@ const DATA = {
       },
       {
         id:"sotif", name:"ISO 21448 · SOTIF", full:"ISO 21448:2022 — Road vehicles, safety of the intended functionality",
-        axis:"safety", ring:"published", cat:"industrial", region:"INT", a:28, rr:0.78,
+        axis:"safety", ring:"published", cat:"vehicle", region:"INT", a:28, rr:0.78,
         tagline:"Safety when nothing is broken — the standard that covers perception limits.",
         meta:{Status:"Published 2022", Applies:"Now · required for any credible ADS safety case", Body:"ISO TC22/SC32/WG8", Scope:"Functions relying on sensing and complex algorithms, incl. ADAS and ADS"},
         what:"SOTIF addresses hazards arising from functional insufficiencies and reasonably foreseeable misuse rather than from faults: a perception stack that misclassifies in low sun, a planner that behaves unexpectedly in a rare scenario. It structures the problem into known/unknown and safe/unsafe scenario areas and drives them down through analysis and testing.",
@@ -689,7 +671,7 @@ const DATA = {
       },
       {
         id:"r157", name:"UN R157 · ALKS", full:"UN Regulation No. 157 — Automated Lane Keeping Systems",
-        axis:"safety", ring:"published", cat:"consumer", region:"INT", a:14, rr:0.60,
+        axis:"safety", ring:"published", cat:"vehicle", region:"INT", a:14, rr:0.60,
         tagline:"The first binding international type-approval regulation for a Level 3 function.",
         meta:{Status:"In force · amended to 130 km/h", Applies:"Now, in UNECE contracting parties", Body:"UNECE WP.29 / GRVA", Scope:"Level 3 automated lane keeping on divided highways"},
         what:"R157 made Level 3 legally approvable. It sets the system safety requirements, the transition demand and minimum risk manoeuvre behaviour, the Driver Availability Recognition System and the Data Storage System for Automated Driving, plus an audit-and-test based assessment of the manufacturer's safety argument.",
@@ -705,7 +687,7 @@ const DATA = {
       },
       {
         id:"eu1426", name:"EU 2022/1426 · ADS", full:"Commission Implementing Regulation (EU) 2022/1426 — type-approval of automated driving systems in fully automated vehicles",
-        axis:"safety", ring:"published", cat:"industrial", region:"EU", a:4, rr:0.34,
+        axis:"safety", ring:"published", cat:"vehicle", region:"EU", a:4, rr:0.34,
         tagline:"The EU route to approving driverless vehicles in small series.",
         meta:{Status:"In force since 2022", Applies:"Now", Body:"European Commission", Scope:"ADS in fully automated vehicles (EU small-series type approval)"},
         what:"Adopted under the General Safety Regulation (EU) 2019/2144, this implementing act sets uniform procedures for approving fully automated vehicles in the EU — including ones without a driver. It covers the safety requirements, the assessment methodology and in-service reporting.",
@@ -724,13 +706,14 @@ const DATA = {
 };
 
 const RING_LABEL = { draft:"Draft", final:"Finalization", published:"Published" };
-const CAT_LABEL  = { consumer:"Consumer / Service", industrial:"Industrial" };
+const catOf = (id) => DATA[state.domain].cats.find(c=>c.id===id) || { label:id, color:"#FFF" };
 const REGION_LABEL = { EU:"European Union", US:"United States", INT:"International" };
 const FLAG_TXT = { EU:"EU", US:"US", INT:"\u{1F310}" };
 
 /* ---------------- STATE ---------------- */
 const NARROW = 760;
 let state = { domain:"robotics", view: window.innerWidth < NARROW ? "list" : "radar", cats:new Set(["consumer","industrial"]) };
+
 
 const $  = (s,c=document)=>c.querySelector(s);
 const $$ = (s,c=document)=>[...c.querySelectorAll(s)];
@@ -741,8 +724,8 @@ function flagEl(region){
 }
 
 /* ---------------- RADAR ---------------- */
-const ASPECT = 2.15;                       // must match .radar aspect-ratio
 const BAND = { published:[0.10,0.40], final:[0.46,0.64], draft:[0.70,0.94] };
+const RING_EDGE = [0.43, 0.67, 1.0];   // published | finalization | draft boundaries
 
 /* radius is derived from the ring so a blip can never be plotted
    in a band that contradicts its published/finalization/draft status.
@@ -751,29 +734,66 @@ function radiusOf(item){
   const [lo,hi] = BAND[item.ring];
   return lo + (hi-lo) * (item.rr ?? 0.5);
 }
-function pos(item){
-  const rad = item.a * Math.PI/180;
-  const r = radiusOf(item);
-  const x = 50 + 40 * r * Math.cos(rad);            // dome radius = 40% of width
-  const y = 100 - 40 * ASPECT * r * Math.sin(rad);
-  return { x, y };
+/* The dome is a true semicircle: centre on the baseline, only the upper half
+   drawn. Grid and blips share this geometry so they can never disagree. */
+function geom(){
+  const el = $("#radar");
+  const W = el.clientWidth, H = el.clientHeight;
+  return { W, H, cx:W/2, cy:H, R: Math.min(0.44*W, H-24) };
 }
+function polar(g, r, deg){
+  const t = deg*Math.PI/180;
+  return [ g.cx + g.R*r*Math.cos(t), g.cy - g.R*r*Math.sin(t) ];
+}
+
+function drawGrid(){
+  const g = geom();
+  if(!g.W || !g.H) return;
+  const svg = $("#grid");
+  svg.setAttribute("viewBox", "0 0 "+g.W+" "+g.H);
+  // semicircle: centred on the baseline, upper half only
+  const semi = f => { const r = g.R*f;
+    return "M "+(g.cx-r)+" "+g.cy+" A "+r+" "+r+" 0 0 1 "+(g.cx+r)+" "+g.cy+" Z"; };
+  const arc = (f,a1,a2) => { const p1=polar(g,f,a1), p2=polar(g,f,a2), r=g.R*f;
+    return "M "+p1[0]+" "+p1[1]+" A "+r+" "+r+" 0 0 1 "+p2[0]+" "+p2[1]; };
+  const fs = Math.max(11, Math.min(21, g.W*0.017));
+  svg.innerHTML =
+    '<path class="band b3" d="'+semi(RING_EDGE[2])+'"/>'+
+    '<path class="band b2" d="'+semi(RING_EDGE[1])+'"/>'+
+    '<path class="band b1" d="'+semi(RING_EDGE[0])+'"/>'+
+    '<line class="axv" x1="'+g.cx+'" y1="'+g.cy+'" x2="'+g.cx+'" y2="'+(g.cy-g.R)+'"/>'+
+    '<line class="axh" x1="'+(g.cx-g.R)+'" y1="'+g.cy+'" x2="'+(g.cx+g.R)+'" y2="'+g.cy+'"/>'+
+    '<path id="lpL" fill="none" d="'+arc(0.88,172,116)+'"/>'+
+    '<path id="lpR" fill="none" d="'+arc(0.88,64,8)+'"/>'+
+    '<text class="halftxt" style="font-size:'+fs+'px"><textPath href="#lpL" startOffset="50%" text-anchor="middle">Cybersecurity</textPath></text>'+
+    '<text class="halftxt" style="font-size:'+fs+'px"><textPath href="#lpR" startOffset="50%" text-anchor="middle">Functional Safety</textPath></text>';
+}
+
+function placeBlips(){
+  const g = geom();
+  const byId = Object.fromEntries(DATA[state.domain].items.map(i=>[i.id,i]));
+  $$(".blip").forEach(b=>{
+    const it = byId[b.dataset.id]; if(!it) return;
+    const [x,y] = polar(g, radiusOf(it), it.a);
+    b.style.left = x.toFixed(1)+"px";
+    b.style.top  = y.toFixed(1)+"px";
+  });
+}
+function layout(){ drawGrid(); placeBlips(); requestAnimationFrame(deoverlap); }
 
 function renderRadar(){
   const items = DATA[state.domain].items;
   const host = $("#blips");
   host.innerHTML = items.map(it=>{
-    const p = pos(it);
     const side = it.axis === "cyber" ? "left" : "right";
     const lbl  = '<span class="lbl">'+it.name+'</span>';
     const dot  = '<span class="dot"></span>';
     const flg  = flagEl(it.region);
     const inner = side==="left" ? lbl+dot+flg : flg+dot+lbl;
     return '<button class="blip '+side+'" data-id="'+it.id+'" data-cat="'+it.cat+'" '+
-           'style="--x:'+p.x.toFixed(2)+'%;--y:'+p.y.toFixed(2)+'%" '+
+           'style="--dotc:'+catOf(it.cat).color+'" '+
            'title="'+it.name+' — '+RING_LABEL[it.ring]+'">'+inner+'</button>';
   }).join("");
-  requestAnimationFrame(deoverlap);
 }
 
 /* nudge labels vertically so chips never collide */
@@ -826,7 +846,7 @@ function renderList(){
       .sort((a,b)=>["draft","final","published"].indexOf(a.ring)-["draft","final","published"].indexOf(b.ring))
       .map(it=>
         '<button class="card" data-id="'+it.id+'" data-cat="'+it.cat+'">'+
-          '<div class="top">'+flagEl(it.region)+'<span class="dot" style="width:10px;height:10px;border-radius:50%;background:var(--cat-'+it.cat+')"></span>'+
+          '<div class="top">'+flagEl(it.region)+'<span class="dot" style="width:10px;height:10px;border-radius:50%;background:'+catOf(it.cat).color+'"></span>'+
           '<span class="nm">'+it.name+'</span></div>'+
           '<div class="tg">'+it.tagline+'</div>'+
           '<div class="meta"><span class="tag '+it.ring+'">'+RING_LABEL[it.ring]+'</span>'+
@@ -850,7 +870,7 @@ function openModal(id){
       '</div>'+
       '<div class="mmeta">'+
         '<span class="tag '+it.ring+'">'+RING_LABEL[it.ring]+'</span>'+
-        '<span class="tag">'+CAT_LABEL[it.cat]+'</span>'+
+        '<span class="tag">'+catOf(it.cat).label+'</span>'+
         '<span class="tag">'+(it.axis==="cyber"?"Cybersecurity":"Functional Safety")+'</span>'+
         '<span class="tag">'+DATA[state.domain].label+'</span>'+
       '</div>'+
@@ -877,6 +897,16 @@ function closeModal(){
 }
 
 /* ---------------- FILTERS / RENDER ---------------- */
+function renderChips(){
+  const cats = DATA[state.domain].cats;
+  $("#filterChips").innerHTML = cats.length > 1 ? cats.map(c=>
+    '<button class="chip" data-filter="'+c.id+'" aria-pressed="'+state.cats.has(c.id)+'">'+
+    '<span class="swatch" style="background:'+c.color+'"></span>'+c.label+'</button>').join("") : "";
+  $("#legend").innerHTML = cats.map(c=>
+    '<div class="li"><span class="sw" style="background:'+c.color+'"></span>'+c.label+'</div>').join("")+
+    '<div class="li"><span class="sw" style="background:var(--p3-blue-deep);border:1px solid var(--line)"></span>International</div>';
+}
+
 function applyFilters(){
   $$(".blip").forEach(b=> b.classList.toggle("dimmed", !state.cats.has(b.dataset.cat)) );
   $$(".card").forEach(c=> c.classList.toggle("dimmed", !state.cats.has(c.dataset.cat)) );
@@ -885,9 +915,11 @@ function applyFilters(){
 function render(){
   $("#domainEyebrow").textContent = DATA[state.domain].label;
   $("#lede").textContent = DATA[state.domain].lede;
+  renderChips();
   renderRadar();
   renderList();
   applyFilters();
+  layout();
   $("#radarView").classList.toggle("off", state.view!=="radar");
   $("#listView").classList.toggle("on", state.view==="list");
   $$(".viewtog button").forEach(x=> x.setAttribute("aria-pressed", String(x.dataset.view===state.view)));
@@ -896,6 +928,7 @@ function render(){
 /* ---------------- EVENTS ---------------- */
 $$(".seg button").forEach(b=> b.addEventListener("click", ()=>{
   state.domain = b.dataset.domain;
+  state.cats = new Set(DATA[state.domain].cats.map(c=>c.id));
   $$(".seg button").forEach(x=> x.setAttribute("aria-pressed", String(x===b)));
   render();
 }));
@@ -904,12 +937,13 @@ $$(".viewtog button").forEach(b=> b.addEventListener("click", ()=>{
   $$(".viewtog button").forEach(x=> x.setAttribute("aria-pressed", String(x===b)));
   render();
 }));
-$$(".chip").forEach(b=> b.addEventListener("click", ()=>{
+$("#filterChips").addEventListener("click", e=>{
+  const b = e.target.closest(".chip"); if(!b) return;
   const c = b.dataset.filter;
   if(state.cats.has(c) && state.cats.size>1) state.cats.delete(c); else state.cats.add(c);
   b.setAttribute("aria-pressed", String(state.cats.has(c)));
   applyFilters();
-}));
+});
 document.addEventListener("click", e=>{
   const t = e.target.closest(".blip, .card");
   if(t) openModal(t.dataset.id);
@@ -917,7 +951,7 @@ document.addEventListener("click", e=>{
 $("#overlay").addEventListener("click", e=>{ if(e.target.id==="overlay") closeModal(); });
 document.addEventListener("click", e=>{ if(e.target.id==="closeBtn") closeModal(); });
 document.addEventListener("keydown", e=>{ if(e.key==="Escape" && $("#overlay").classList.contains("on")) closeModal(); });
-window.addEventListener("resize", ()=>requestAnimationFrame(deoverlap));
+window.addEventListener("resize", ()=>requestAnimationFrame(layout));
 
 render();
 </script>
